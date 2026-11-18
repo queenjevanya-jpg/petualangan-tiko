@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petualangan TIKO di Dunia Jaringan dan Internet - Informatika Kelas 3 SD</title>
+  <!-- Google Fonts ramah anak: Fredoka & Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Fredoka', 'cursive', 'sans-serif'],
+            body: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            tikoBlue: '#2563EB',
+            tikoSky: '#38BDF8',
+            tikoYellow: '#FACC15',
+            tikoOrange: '#F97316',
+            tikoGreen: '#22C55E',
+            tikoPurple: '#8B5CF6',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Nunito', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #E0F2FE 0%, #FEF9C3 50%, #F3E8FF 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #1E293B;
+    }
+    h1, h2, h3, .font-display {
+      font-family: 'Fredoka', 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+    }
+
+    /* Animasi Kustom Ramah Anak */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes antennaGlow {
+      0%, 100% { filter: drop-shadow(0 0 2px #FACC15); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 10px #F59E0B); transform: scale(1.18); }
+    }
+    @keyframes packetMove {
+      0% { left: 10%; opacity: 0; transform: scale(0.7); }
+      15% { opacity: 1; transform: scale(1); }
+      85% { opacity: 1; transform: scale(1); }
+      100% { left: 80%; opacity: 0; transform: scale(0.7); }
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -24; }
+    }
+    @keyframes shakePrinter {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-5px) rotate(-3deg); }
+      75% { transform: translateX(5px) rotate(3deg); }
+    }
+    @keyframes paperSlide {
+      0% { transform: translateY(22px); opacity: 0; }
+      100% { transform: translateY(0px); opacity: 1; }
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.75); opacity: 0; }
+      70% { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes tikoBlink {
+      0%, 92%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.1); }
+    }
+    @keyframes tikoTalk {
+      0%, 100% { transform: scaleY(0.45); }
+      50% { transform: scaleY(1.2); }
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    .animate-float { animation: floatSlow 3.2s ease-in-out infinite; }
+    .animate-antenna { transform-origin: 60px 8px; animation: antennaGlow 1.8s ease-in-out infinite; }
+    .animate-pop { animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .animate-dash { stroke-dasharray: 8 4; animation: dashFlow 0.8s linear infinite; }
+    .animate-printer { animation: shakePrinter 0.35s ease-in-out 3; }
+    .animate-paper { animation: paperSlide 0.6s ease-out forwards; }
+    .tiko-eye { transform-origin: center; animation: tikoBlink 4s infinite; }
+    .tiko-speaking .tiko-mouth { transform-origin: center; animation: tikoTalk 0.25s infinite; }
+
+    /* Tombol 3D Playful */
+    .btn-3d {
+      transition: all 0.15s ease;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+    }
+    .btn-3d:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Kartu Glass/Playful */
+    .card-playful {
+      background: rgba(255, 255, 255, 0.96);
+      border: 4px solid #E2E8F0;
+      border-radius: 28px;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08);
+    }
+
+    /* Confetti particle */
+    .confetti-piece {
+      position: fixed;
+      top: -15px;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      z-index: 9999;
+      pointer-events: none;
+      animation: confettiFall 2.8s linear forwards;
+    }
+
+    /* Pengaturan Cetak Sertifikat 1 Halaman Penuh */
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 6mm;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        background: #FFFBEB !important;
+      }
+      body * {
+        visibility: hidden !important;
+      }
+      #printable-certificate, #printable-certificate * {
+        visibility: visible !important;
+      }
+      #printable-certificate {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 18px 34px !important;
+        border-radius: 16px !important;
+        box-shadow: none !important;
+        border: 10px double #1D4ED8 !important;
+        background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 50%, #F0F9FF 100%) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body class="selection:bg-yellow-300 selection:text-blue-900">
+
+  <!-- CONTAINER KONFETI -->
+  <div id="confetti-container"></div>
+
+  <!-- HUD / HEADER PERMANEN SAAT BELAJAR (Disembunyikan di Halaman Pembuka) -->
+  <header id="main-hud" class="hidden sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-4 border-blue-200 px-3 py-2 sm:px-6 shadow-sm">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <!-- Kiri: Avatar TIKO & Nama Penjelajah -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="navigateTo('map')" class="flex items-center gap-2 bg-blue-50 hover:bg-blue-100 border-2 border-blue-300 rounded-2xl px-2.5 py-1.5 transition" title="Kembali ke Peta Dunia">
+          <div id="hud-tiko-mini" class="w-9 h-9 flex-shrink-0"></div>
+          <div class="text-left">
+            <div class="text-xs font-extrabold text-blue-600 uppercase tracking-wider">Penjelajah</div>
+            <div id="hud-player-name" class="text-sm sm:text-base font-black text-slate-800 truncate max-w-[140px] sm:max-w-[210px]">Teman TIKO</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Tengah: Poin, Bintang, Badge -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5">
+        <div class="hidden lg:flex items-center gap-1 bg-blue-100 border-2 border-blue-300 px-3 py-1.5 rounded-2xl">
+          <span class="text-base">🚀</span>
+          <span id="hud-level" class="font-display font-bold text-blue-800 text-sm">Level 1</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-amber-100 border-2 border-amber-300 px-3 py-1.5 rounded-2xl">
+          <span class="text-lg">⭐</span>
+          <span id="hud-stars" class="font-display font-bold text-amber-800 text-base sm:text-lg">0</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-emerald-100 border-2 border-emerald-300 px-3 py-1.5 rounded-2xl">
+          <span class="text-lg">💎</span>
+          <span id="hud-points" class="font-display font-bold text-emerald-800 text-base sm:text-lg">0</span>
+        </div>
+        <button onclick="openBadgesModal()" class="flex items-center gap-1.5 bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 px-3 py-1.5 rounded-2xl transition">
+          <span class="text-lg">🏅</span>
+          <span id="hud-badges" class="font-display font-bold text-purple-800 text-base sm:text-lg">0/7</span>
+        </button>
+      </div>
+
+      <!-- Kanan: Tombol Peta & Audio -->
+      <div class="flex items-center gap-2">
+        <button onclick="navigateTo('map')" class="btn-3d bg-sky-500 hover:bg-sky-600 text-white font-display font-bold px-3.5 py-2 rounded-2xl text-sm sm:text-base flex items-center gap-1.5">
+          <span>🗺️</span>
+          <span class="hidden sm:inline">Peta Dunia</span>
+        </button>
+        <button onclick="openAudioModal()" class="btn-3d bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold p-2 sm:px-3.5 sm:py-2 rounded-2xl text-base flex items-center gap-1" title="Pengaturan Suara">
+          <span id="hud-sound-icon">🔊</span>
+          <span class="hidden md:inline text-sm">Suara</span>
+        </button>
+        <!-- Identitas Sekolah Berkarakter Semangat -->
+        <div class="bg-gradient-to-r from-blue-700 via-sky-600 to-indigo-700 text-yellow-300 border-2 border-yellow-300 px-3.5 py-1.5 rounded-2xl shadow-md flex items-center gap-1.5 flex-shrink-0">
+          <span class="text-base sm:text-lg">🏫</span>
+          <span class="font-display font-extrabold text-sm sm:text-lg tracking-wider uppercase drop-shadow">SD ST. MELANIA</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- KOTAK DIALOG TIKO MENGAMBANG / INTERAKTIF -->
+  <div id="tiko-guide-bar" class="hidden max-w-5xl mx-auto px-3 sm:px-6 pt-4">
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 rounded-3xl p-3 sm:p-4 shadow-lg border-4 border-yellow-300 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 text-white relative">
+      <!-- Karakter TIKO -->
+      <div id="tiko-avatar-box" class="w-20 h-20 sm:w-24 sm:h-24 bg-white/20 rounded-2xl p-1.5 flex-shrink-0 flex items-center justify-center border-2 border-white/40 animate-float">
+        <!-- SVG TIKO dirender oleh JS -->
+      </div>
+      <!-- Balon Dialog -->
+      <div class="flex-1 text-center sm:text-left">
+        <div class="inline-flex items-center gap-2 bg-yellow-300 text-blue-900 font-display font-bold text-xs sm:text-sm px-3 py-0.5 rounded-full mb-1">
+          <span>🤖 TIKO PEMANDU DIGITAL</span>
+        </div>
+        <p id="tiko-dialog-text" class="text-base sm:text-lg md:text-xl font-bold leading-snug">
+          Halo teman-teman! Aku TIKO!
+        </p>
+      </div>
+      <!-- Tombol Ulangi Suara TIKO -->
+      <button onclick="speakCurrentTiko()" class="btn-3d bg-yellow-400 hover:bg-yellow-300 text-blue-950 font-display font-bold px-3.5 py-2 rounded-2xl text-sm flex items-center gap-1.5 flex-shrink-0" title="Dengarkan TIKO lagi">
+        <span>🗣️</span>
+        <span>Dengar</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- AREA KONTEN UTAMA -->
+  <main id="app-container" class="max-w-6xl mx-auto px-3 sm:px-6 py-5 pb-16">
+    <!-- Konten halaman dirender secara dinamis di sini -->
+  </main>
+
+  <!-- KREDIT POJOK KANAN BAWAH -->
+  <div class="fixed bottom-2.5 right-3 z-30 flex items-center gap-2 print:hidden">
+    <button id="quick-music-btn" onclick="toggleQuickMusic()" class="pointer-events-auto bg-yellow-400 hover:bg-yellow-300 border-2 border-blue-700 text-blue-950 font-display font-bold text-xs px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 transition" title="Nyalakan / Matikan Lagu">
+      <span id="quick-music-icon">🎵</span>
+      <span id="quick-music-label">Putar Lagu</span>
+    </button>
+    <div class="bg-white/90 backdrop-blur border-2 border-blue-200 text-slate-700 font-display font-bold text-xs px-3 py-1.5 rounded-full shadow-sm pointer-events-none">
+      By : Jericho Siahaan
+    </div>
+  </div>
+
+  <!-- MODAL PETUNJUK BERMAIN -->
+  <div id="modal-guide" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="card-playful max-w-xl w-full p-6 sm:p-8 animate-pop border-blue-400 relative">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-2xl sm:text-3xl font-display font-bold text-blue-700 flex items-center gap-2">
+          <span>📖</span> Petunjuk Petualangan
+        </h2>
+        <button onclick="closeModal('modal-guide')" class="w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-600 font-black text-xl">✕</button>
+      </div>
+      <div class="space-y-3 text-base sm:text-lg font-bold text-slate-700">
+        <div class="flex items-start gap-3 bg-sky-50 p-3 rounded-2xl border-2 border-sky-200">
+          <span class="text-2xl">1️⃣</span>
+          <p>Ikuti robot lucu <strong class="text-blue-600">TIKO</strong> menjelajahi <strong class="text-orange-600">4 Dunia Teknologi</strong>.</p>
+        </div>
+        <div class="flex items-start gap-3 bg-yellow-50 p-3 rounded-2xl border-2 border-yellow-200">
+          <span class="text-2xl">2️⃣</span>
+          <p>Klik tombol, hubungkan kabel, aktifkan Bluetooth & WiFi, dan coba <strong class="text-blue-600">Browser TIKO</strong>.</p>
+        </div>
+        <div class="flex items-start gap-3 bg-green-50 p-3 rounded-2xl border-2 border-green-200">
+          <span class="text-2xl">3️⃣</span>
+          <p>Selesaikan misi <strong class="text-green-600">Selamatkan Kota Digital</strong> dan kerjakan <strong class="text-purple-600">Kuis 15 Soal</strong>.</p>
+        </div>
+        <div class="flex items-start gap-3 bg-purple-50 p-3 rounded-2xl border-2 border-purple-200">
+          <span class="text-2xl">4️⃣</span>
+          <p>Kumpulkan semua <strong class="text-amber-600">Bintang ⭐</strong> dan <strong class="text-purple-600">7 Badge 🏅</strong> untuk mendapatkan <strong class="text-blue-600">Sertifikat Penjelajah Digital</strong>!</p>
+        </div>
+      </div>
+      <div class="mt-6 text-center">
+        <button onclick="closeModal('modal-guide')" class="btn-3d bg-blue-600 hover:bg-blue-700 text-white font-display font-bold text-xl px-8 py-3 rounded-2xl">
+          AKU MENGERTI! 👍
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PENGATURAN SUARA -->
+  <div id="modal-audio" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="card-playful max-w-md w-full p-6 sm:p-8 animate-pop border-yellow-400">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-2xl sm:text-3xl font-display font-bold text-slate-800 flex items-center gap-2">
+          <span>🎛️</span> Pengaturan Suara
+        </h2>
+        <button onclick="closeModal('modal-audio')" class="w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-600 font-black text-xl">✕</button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Musik Latar -->
+        <div class="bg-blue-50 p-3.5 rounded-2xl border-2 border-blue-200 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🎵</span>
+              <div>
+                <div class="font-display font-bold text-base sm:text-lg text-slate-800">Lagu Anak DIKDASMEN (MP3)</div>
+                <div id="bgm-now-playing" class="text-xs font-bold text-blue-600">🎶 1. Rukun Sama Teman - Kemendikdasmen.mp3</div>
+              </div>
+            </div>
+            <button id="toggle-music-btn" onclick="toggleAudioSetting('music')" class="btn-3d px-4 py-2 rounded-xl font-display font-bold text-white bg-green-500">ON</button>
+          </div>
+          <!-- Pemilih Lagu MP3 DIKDASMEN -->
+          <div class="flex items-center gap-2">
+            <select id="bgm-song-selector" onchange="selectBgmSong(this.value)" class="flex-1 text-xs sm:text-sm font-display font-bold bg-white border-2 border-blue-300 rounded-xl px-2.5 py-1.5 text-slate-800 focus:outline-none">
+            </select>
+            <button onclick="nextBgmSong()" class="btn-3d bg-sky-500 hover:bg-sky-600 text-white font-display font-bold text-xs px-3 py-1.5 rounded-xl" title="Lagu MP3 Berikutnya">
+              ⏭ Ganti
+            </button>
+          </div>
+          <!-- Muat File MP3 DIKDASMEN dari Perangkat -->
+          <div class="pt-1">
+            <label class="cursor-pointer inline-flex items-center justify-center gap-1.5 w-full bg-white hover:bg-blue-100 border-2 border-dashed border-blue-400 text-blue-800 font-display font-bold text-xs px-3 py-2 rounded-xl transition">
+              <span>📂 Pilih File MP3 Lagu DIKDASMEN dari Komputer/HP</span>
+              <input id="dikdasmen-mp3-input" type="file" accept="audio/mp3,audio/mpeg,.mp3" multiple onchange="loadCustomDikdasmenMp3(event)" class="hidden" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Efek Suara -->
+        <div class="flex items-center justify-between bg-amber-50 p-3.5 rounded-2xl border-2 border-amber-200">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🔔</span>
+            <div>
+              <div class="font-display font-bold text-lg text-slate-800">Efek Suara</div>
+              <div class="text-xs font-bold text-slate-500">Suara klik, bintang & berhasil</div>
+            </div>
+          </div>
+          <button id="toggle-sfx-btn" onclick="toggleAudioSetting('sfx')" class="btn-3d px-4 py-2 rounded-xl font-display font-bold text-white bg-green-500">ON</button>
+        </div>
+
+        <!-- Narasi Suara TIKO -->
+        <div class="flex items-center justify-between bg-purple-50 p-3.5 rounded-2xl border-2 border-purple-200">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🗣️</span>
+            <div>
+              <div class="font-display font-bold text-lg text-slate-800">Suara Bicara TIKO</div>
+              <div class="text-xs font-bold text-slate-500">Bacakan dialog TIKO otomatis</div>
+            </div>
+          </div>
+          <button id="toggle-voice-btn" onclick="toggleAudioSetting('voice')" class="btn-3d px-4 py-2 rounded-xl font-display font-bold text-white bg-green-500">ON</button>
+        </div>
+
+        <!-- Slider Volume -->
+        <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200">
+          <div class="flex justify-between font-display font-bold text-slate-700 mb-2">
+            <span>🔉 Volume Suara</span>
+            <span id="volume-label">70%</span>
+          </div>
+          <input id="volume-slider" type="range" min="0" max="100" value="70" oninput="updateVolume(this.value)" class="w-full h-3 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-600" />
+        </div>
+      </div>
+
+      <div class="mt-6 text-center">
+        <button onclick="closeModal('modal-audio')" class="btn-3d bg-blue-600 hover:bg-blue-700 text-white font-display font-bold text-lg px-8 py-3 rounded-2xl w-full">
+          SIMPAN PENGATURAN ✅
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DAFTAR BADGE -->
+  <div id="modal-badges" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="card-playful max-w-2xl w-full p-6 sm:p-8 animate-pop border-purple-400 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-2xl sm:text-3xl font-display font-bold text-purple-700 flex items-center gap-2">
+          <span>🏅</span> Koleksi Badge Penjelajah
+        </h2>
+        <button onclick="closeModal('modal-badges')" class="w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-600 font-black text-xl">✕</button>
+      </div>
+      <p class="text-slate-600 font-bold mb-4">Selesaikan setiap dunia dan tantangan untuk membuka semua 7 badge hebat!</p>
+      <div id="badges-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <!-- Dirender JS -->
+      </div>
+      <div class="mt-6 text-center">
+        <button onclick="closeModal('modal-badges')" class="btn-3d bg-purple-600 hover:bg-purple-700 text-white font-display font-bold text-lg px-8 py-2.5 rounded-2xl">
+          TUTUP
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOTIFIKASI PENGHARGAAN / FEEDBACK -->
+  <div id="modal-reward" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="card-playful max-w-md w-full p-6 sm:p-8 text-center animate-pop border-yellow-400">
+      <div id="reward-icon" class="text-6xl sm:text-7xl mb-3 animate-bounce">🏆</div>
+      <h3 id="reward-title" class="text-2xl sm:text-3xl font-display font-bold text-blue-700 mb-2">HEBAT SEKALI!</h3>
+      <p id="reward-message" class="text-base sm:text-lg font-bold text-slate-600 mb-5">Kamu mendapatkan bintang dan badge baru!</p>
+      <button onclick="closeModal('modal-reward')" class="btn-3d bg-green-500 hover:bg-green-600 text-white font-display font-bold text-xl px-8 py-3 rounded-2xl w-full">
+        LANJUTKAN! 🚀
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPT UTAMA APLIKASI -->
+  <script>
+    /*************************************************************************
+     * 1. DATA & STATE APLIKASI (DISIMPAN DI LOCALSTORAGE)
+     *************************************************************************/
+    const STORAGE_KEY = 'tiko_jaringan_kelas3_v1';
+
+    const BADGES_LIST = [
+      { id: 'ahli_jaringan', name: 'AHLI JARINGAN', icon: '🖥️', desc: 'Menghubungkan komputer dan printer di Dunia 1', color: 'bg-blue-100 border-blue-400 text-blue-800' },
+      { id: 'penjelajah_kabel', name: 'PENJELAJAH KABEL', icon: '🔌', desc: 'Mengelompokkan jaringan berkabel & nirkabel di Dunia 2', color: 'bg-orange-100 border-orange-400 text-orange-800' },
+      { id: 'master_bluetooth', name: 'MASTER BLUETOOTH', icon: '🎧', desc: 'Menghubungkan perangkat dengan Bluetooth di Dunia 3', color: 'bg-sky-100 border-sky-400 text-sky-800' },
+      { id: 'sahabat_wifi', name: 'SAHABAT WIFI', icon: '📶', desc: 'Terhubung ke WiFi Sekolah dengan kata sandi aman', color: 'bg-emerald-100 border-emerald-400 text-emerald-800' },
+      { id: 'penjelajah_internet', name: 'PENJELAJAH INTERNET', icon: '🌍', desc: 'Memahami manfaat dan keamanan internet di Dunia 4', color: 'bg-teal-100 border-teal-400 text-teal-800' },
+      { id: 'detektif_browser', name: 'DETEKTIF BROWSER', icon: '🧭', desc: 'Mengenali bagian browser dan mencari informasi aman', color: 'bg-indigo-100 border-indigo-400 text-indigo-800' },
+      { id: 'juara_digital', name: 'JUARA DIGITAL', icon: '🦸', desc: 'Menyelamatkan Kota Digital dalam 5 Misi Utama!', color: 'bg-yellow-100 border-yellow-400 text-yellow-900' }
+    ];
+
+    const defaultState = {
+      playerName: '',
+      playerClass: '',
+      points: 0,
+      stars: 0,
+      badges: [],
+      completed: {
+        world1: false,
+        world2: false,
+        world3_bt: false,
+        world3_wifi: false,
+        world3_game: false,
+        world4_net: false,
+        world4_browser: false,
+        city_mission: false,
+        quiz: false,
+        reflection: false
+      },
+      quizBestScore: 0,
+      reflections: {},
+      reflectionNote: '',
+      audio: {
+        music: true,
+        sfx: true,
+        voice: true,
+        volume: 0.7
+      }
+    };
+
+    let appState = loadState();
+    let currentScreen = 'welcome';
+    let currentTikoText = '';
+    let currentTikoMood = 'happy'; // happy | thinking | excited
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            ...defaultState,
+            ...parsed,
+            completed: { ...defaultState.completed, ...(parsed.completed || {}) },
+            audio: { ...defaultState.audio, ...(parsed.audio || {}) }
+          };
+        }
+      } catch (e) {
+        console.warn('Gagal memuat progres:', e);
+      }
+      return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn('Gagal menyimpan progres:', e);
+      }
+      updateHUD();
+    }
+
+    function resetAllProgress() {
+      appState = JSON.parse(JSON.stringify(defaultState));
+      saveState();
+      playSfx('click');
+      navigateTo('welcome');
+    }
+
+    /*************************************************************************
+     * 2. AUDIO ENGINE (HTML5 MP3 DIKDASMEN + WEB AUDIO SFX + WEB SPEECH API)
+     *************************************************************************/
+    let DIKDASMEN_MP3_PLAYLIST = [
+      { title: '1. Bangun Pagi', src: 'musik/Bangun Pagi.mp3' },
+      { title: '2. Rukun Sama Teman', src: 'musik/Rukun Sama Teman.mp3' },
+      { title: '3. Hari Baru MPLS Ramah', src: 'musik/Hari Baru MPLS Ramah.mp3' },
+      { title: '4. Jangan Main HP', src: 'musik/Jangan Main HP.mp3' },
+      { title: '5. Makan Sehat Kita Hebat', src: 'musik/Makan Sehat Kita Hebat.mp3' },
+      { title: '6. 7 Kebiasaan Anak Indonesia Hebat', src: 'musik/7 Kebiasaan Anak Indonesia Hebat.mp3' },
+      { title: '7. Ayo Semangat Belajar', src: 'musik/Ayo Semangat Belajar.mp3' }
+    ];
+
+    let audioCtx = null;
+    let bgmAudioPlayer = new Audio();
+    bgmAudioPlayer.preload = 'auto';
+    let bgmSongIndex = Math.floor(Math.random() * DIKDASMEN_MP3_PLAYLIST.length);
+    let mp3LoadErrorCount = 0;
+
+    function getRandomSongIndex(excludeIndex = -1) {
+      if (DIKDASMEN_MP3_PLAYLIST.length <= 1) return 0;
+      let next = Math.floor(Math.random() * DIKDASMEN_MP3_PLAYLIST.length);
+      if (next === excludeIndex) {
+        next = (next + 1) % DIKDASMEN_MP3_PLAYLIST.length;
+      }
+      return next;
+    }
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+    }
+
+    function updateQuickMusicUI() {
+      const iconEl = document.getElementById('quick-music-icon');
+      const labelEl = document.getElementById('quick-music-label');
+      if (!iconEl || !labelEl) return;
+      if (!appState.audio.music) {
+        iconEl.textContent = '🔇';
+        labelEl.textContent = 'MP3 OFF';
+      } else if (!bgmAudioPlayer.paused && bgmAudioPlayer.currentSrc) {
+        iconEl.textContent = '🎶';
+        labelEl.textContent = 'MP3 DIKDASMEN';
+      } else {
+        iconEl.textContent = '▶️';
+        labelEl.textContent = 'Putar MP3 DIKDASMEN';
+      }
+    }
+
+    function playMp3Track(index, autoAdvanceOnFail = true) {
+      if (!DIKDASMEN_MP3_PLAYLIST.length) return;
+      bgmSongIndex = ((index % DIKDASMEN_MP3_PLAYLIST.length) + DIKDASMEN_MP3_PLAYLIST.length) % DIKDASMEN_MP3_PLAYLIST.length;
+      const track = DIKDASMEN_MP3_PLAYLIST[bgmSongIndex];
+      updateNowPlayingLabel();
+
+      if (!appState.audio.music) {
+        bgmAudioPlayer.pause();
+        updateQuickMusicUI();
+        return;
+      }
+
+      bgmAudioPlayer.volume = Math.max(0, Math.min(1, Number(appState.audio.volume ?? 0.7)));
+      bgmAudioPlayer.src = track.src;
+      bgmAudioPlayer.play().then(() => {
+        mp3LoadErrorCount = 0;
+        updateQuickMusicUI();
+      }).catch(() => {
+        updateQuickMusicUI();
+      });
+    }
+
+    bgmAudioPlayer.addEventListener('ended', () => {
+      mp3LoadErrorCount = 0;
+      const nextIdx = getRandomSongIndex(bgmSongIndex);
+      playMp3Track(nextIdx, true);
+    });
+
+    bgmAudioPlayer.addEventListener('error', () => {
+      mp3LoadErrorCount++;
+      updateQuickMusicUI();
+      if (mp3LoadErrorCount < DIKDASMEN_MP3_PLAYLIST.length && appState.audio.music) {
+        const nextIdx = (bgmSongIndex + 1) % DIKDASMEN_MP3_PLAYLIST.length;
+        playMp3Track(nextIdx, true);
+      }
+    });
+
+    function loadCustomDikdasmenMp3(event) {
+      const files = Array.from(event.target.files || []).filter(f => f.name.toLowerCase().endsWith('.mp3') || f.type === 'audio/mpeg');
+      if (!files.length) {
+        showToast('⚠️ Pilih file dengan format .mp3 ya!', 'warn');
+        return;
+      }
+      DIKDASMEN_MP3_PLAYLIST = files.map((file, idx) => ({
+        title: `${idx + 1}. ${file.name.replace(/\.mp3$/i, '')} (MP3)`,
+        src: URL.createObjectURL(file)
+      }));
+      mp3LoadErrorCount = 0;
+      appState.audio.music = true;
+      saveState();
+      const sel = document.getElementById('bgm-song-selector');
+      if (sel) sel.innerHTML = '';
+      syncAudioModalUI();
+      playMp3Track(0, false);
+      showToast(`🎶 ${files.length} lagu MP3 DIKDASMEN siap diputar!`, 'success');
+    }
+
+    function toggleQuickMusic() {
+      if (!appState.audio.music) {
+        appState.audio.music = true;
+        saveState();
+        playMp3Track(bgmSongIndex, true);
+      } else if (bgmAudioPlayer.paused) {
+        playMp3Track(bgmSongIndex, true);
+      } else {
+        nextBgmSong();
+        showToast(`🎶 Memutar: ${DIKDASMEN_MP3_PLAYLIST[bgmSongIndex].title}`, 'info');
+      }
+      updateQuickMusicUI();
+    }
+
+    function playTone(freq, duration = 0.2, category = 'sfx', gainScale = 0.35, delay = 0) {
+      if (category !== 'sfx' || !appState.audio.sfx) return;
+      const vol = Math.max(0.25, Number(appState.audio.volume ?? 0.8));
+      if (Number(appState.audio.volume) === 0) return;
+
+      initAudioContext();
+      if (!audioCtx || audioCtx.state !== 'running') return;
+
+      try {
+        const now = audioCtx.currentTime + delay;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        const peakGain = Math.min(0.65, Math.max(0.05, gainScale * vol));
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(peakGain, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + Math.max(0.14, duration));
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.05);
+      } catch (e) {
+        // Abaikan error node
+      }
+    }
+
+    function updateNowPlayingLabel() {
+      const song = DIKDASMEN_MP3_PLAYLIST[bgmSongIndex % DIKDASMEN_MP3_PLAYLIST.length];
+      const lbl = document.getElementById('bgm-now-playing');
+      if (lbl && song) {
+        lbl.textContent = `🎶 ${song.title}`;
+      }
+      const sel = document.getElementById('bgm-song-selector');
+      if (sel) {
+        sel.value = String(bgmSongIndex);
+      }
+    }
+
+    function selectBgmSong(indexStr) {
+      const idx = parseInt(indexStr, 10);
+      if (!isNaN(idx) && idx >= 0 && idx < DIKDASMEN_MP3_PLAYLIST.length) {
+        mp3LoadErrorCount = 0;
+        playMp3Track(idx, false);
+      }
+    }
+
+    function nextBgmSong() {
+      mp3LoadErrorCount = 0;
+      const nextIdx = getRandomSongIndex(bgmSongIndex);
+      playMp3Track(nextIdx, true);
+    }
+
+    function playSfx(type) {
+      if (type === 'click') {
+        playTone(620, 0.11, 'sfx', 0.32, 0);
+      } else if (type === 'connect') {
+        playTone(440, 0.14, 'sfx', 0.34, 0);
+        playTone(660, 0.20, 'sfx', 0.36, 0.1);
+      } else if (type === 'correct') {
+        playTone(523.25, 0.14, 'sfx', 0.36, 0);
+        playTone(659.25, 0.14, 'sfx', 0.36, 0.1);
+        playTone(783.99, 0.24, 'sfx', 0.40, 0.2);
+      } else if (type === 'wrong') {
+        playTone(320, 0.18, 'sfx', 0.30, 0);
+        playTone(260, 0.24, 'sfx', 0.30, 0.14);
+      } else if (type === 'star' || type === 'mission') {
+        playTone(523.25, 0.13, 'sfx', 0.36, 0);
+        playTone(659.25, 0.13, 'sfx', 0.36, 0.09);
+        playTone(783.99, 0.13, 'sfx', 0.38, 0.18);
+        playTone(1046.50, 0.34, 'sfx', 0.42, 0.27);
+      }
+    }
+
+    function startBgm(randomize = false) {
+      if (randomize) {
+        bgmSongIndex = getRandomSongIndex(bgmSongIndex);
+      }
+      updateNowPlayingLabel();
+      if (appState.audio.music && bgmAudioPlayer.paused) {
+        playMp3Track(bgmSongIndex, true);
+      }
+      updateQuickMusicUI();
+    }
+
+    function toggleAudioSetting(key) {
+      appState.audio[key] = !appState.audio[key];
+      if (key === 'voice' && !appState.audio.voice && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (key === 'music') {
+        if (appState.audio.music) {
+          playMp3Track(bgmSongIndex, true);
+        } else {
+          bgmAudioPlayer.pause();
+        }
+      }
+      saveState();
+      syncAudioModalUI();
+      updateQuickMusicUI();
+      playSfx('click');
+    }
+
+    function updateVolume(val) {
+      appState.audio.volume = Math.max(0, Math.min(1, Number(val) / 100));
+      bgmAudioPlayer.volume = appState.audio.volume;
+      saveState();
+      syncAudioModalUI();
+    }
+
+    function syncAudioModalUI() {
+      const mBtn = document.getElementById('toggle-music-btn');
+      const sBtn = document.getElementById('toggle-sfx-btn');
+      const vBtn = document.getElementById('toggle-voice-btn');
+      const slider = document.getElementById('volume-slider');
+      const label = document.getElementById('volume-label');
+      const sel = document.getElementById('bgm-song-selector');
+
+      if (sel && sel.options.length === 0) {
+        DIKDASMEN_MP3_PLAYLIST.forEach((song, idx) => {
+          const opt = document.createElement('option');
+          opt.value = String(idx);
+          opt.textContent = song.title;
+          sel.appendChild(opt);
+        });
+      }
+      updateNowPlayingLabel();
+
+      if (mBtn) {
+        mBtn.textContent = appState.audio.music ? 'ON' : 'OFF';
+        mBtn.className = `btn-3d px-4 py-2 rounded-xl font-display font-bold text-white ${appState.audio.music ? 'bg-green-500' : 'bg-slate-400'}`;
+      }
+      if (sBtn) {
+        sBtn.textContent = appState.audio.sfx ? 'ON' : 'OFF';
+        sBtn.className = `btn-3d px-4 py-2 rounded-xl font-display font-bold text-white ${appState.audio.sfx ? 'bg-green-500' : 'bg-slate-400'}`;
+      }
+      if (vBtn) {
+        vBtn.textContent = appState.audio.voice ? 'ON' : 'OFF';
+        vBtn.className = `btn-3d px-4 py-2 rounded-xl font-display font-bold text-white ${appState.audio.voice ? 'bg-green-500' : 'bg-slate-400'}`;
+      }
+      const pct = Math.round((appState.audio.volume ?? 0.7) * 100);
+      if (slider) slider.value = pct;
+      if (label) label.textContent = `${pct}%`;
+    }
+
+    let lastSpokenText = '';
+
+    function speakText(text, force = false) {
+      if (!text) return;
+      if (!force && text === lastSpokenText) return;
+      lastSpokenText = text;
+      if (!appState.audio.voice || !('speechSynthesis' in window)) return;
+
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'id-ID';
+        utter.pitch = 0.76; // Suara pria hangat bernada berat layaknya bercerita
+        utter.rate = 0.94;  // Artikulasi jelas seperti mendongeng kepada anak
+        utter.volume = Math.max(0.1, Number(appState.audio.volume ?? 0.8));
+
+        const voices = window.speechSynthesis.getVoices();
+        const idMaleVoice = voices.find(v => v.lang.toLowerCase().includes('id') && /male|pria|ardhi|damayanti|andika/i.test(v.name))
+          || voices.find(v => v.lang.toLowerCase().includes('id'));
+        if (idMaleVoice) utter.voice = idMaleVoice;
+
+        const avatarBox = document.getElementById('tiko-avatar-box');
+        utter.onstart = () => { if (avatarBox) avatarBox.classList.add('tiko-speaking'); };
+        utter.onend = () => { if (avatarBox) avatarBox.classList.remove('tiko-speaking'); };
+        utter.onerror = () => { if (avatarBox) avatarBox.classList.remove('tiko-speaking'); };
+
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        // Abaikan jika browser tidak mendukung SpeechSynthesis
+      }
+    }
+
+    function speakCurrentTiko() {
+      playSfx('click');
+      speakText(currentTikoText, true);
+    }
+
+    /*************************************************************************
+     * 3. KARAKTER SVG TIKO, EFEK KONFETI, PENGHARGAAN & HUD
+     *************************************************************************/
+    function getTikoSVG(mood = 'happy', sizeClass = 'w-full h-full') {
+      const eyeInner = mood === 'excited'
+        ? `<path d="M36 47 L42 41 L48 47" stroke="#FACC15" stroke-width="4" stroke-linecap="round" fill="none"/>
+           <path d="M72 47 L78 41 L84 47" stroke="#FACC15" stroke-width="4" stroke-linecap="round" fill="none"/>`
+        : `<circle cx="42" cy="45" r="6" fill="#38BDF8" class="tiko-eye"/>
+           <circle cx="44" cy="43" r="2" fill="#FFFFFF"/>
+           <circle cx="78" cy="45" r="6" fill="#38BDF8" class="tiko-eye"/>
+           <circle cx="80" cy="43" r="2" fill="#FFFFFF"/>`;
+
+      const mouth = mood === 'thinking'
+        ? `<circle cx="63" cy="64" r="5" fill="#FACC15"/>`
+        : mood === 'excited'
+        ? `<path d="M47 59 Q60 73 73 59 Z" fill="#FACC15" class="tiko-mouth"/>`
+        : `<path d="M48 60 Q60 70 72 60" stroke="#FACC15" stroke-width="4.5" stroke-linecap="round" fill="none" class="tiko-mouth"/>`;
+
+      return `
+        <svg viewBox="0 0 120 120" class="${sizeClass}" xmlns="http://www.w3.org/2000/svg">
+          <!-- Antena -->
+          <line x1="60" y1="22" x2="60" y2="10" stroke="#1D4ED8" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="60" cy="8" r="6" fill="#FACC15" stroke="#F97316" stroke-width="2" class="animate-antenna"/>
+          <!-- Telinga -->
+          <rect x="14" y="42" width="10" height="22" rx="5" fill="#FACC15" stroke="#1E3A8A" stroke-width="2.5"/>
+          <rect x="96" y="42" width="10" height="22" rx="5" fill="#FACC15" stroke="#1E3A8A" stroke-width="2.5"/>
+          <!-- Kepala -->
+          <rect x="24" y="22" width="72" height="56" rx="18" fill="#2563EB" stroke="#1E3A8A" stroke-width="3.5"/>
+          <!-- Layar Wajah -->
+          <rect x="31" y="30" width="58" height="40" rx="12" fill="#0F172A"/>
+          ${eyeInner}
+          ${mouth}
+          <!-- Badan -->
+          <rect x="34" y="82" width="52" height="28" rx="12" fill="#38BDF8" stroke="#1E3A8A" stroke-width="3.5"/>
+          <rect x="46" y="89" width="28" height="14" rx="6" fill="#FACC15"/>
+          <circle cx="54" cy="96" r="2.5" fill="#2563EB"/>
+          <circle cx="66" cy="96" r="2.5" fill="#EF4444"/>
+        </svg>
+      `;
+    }
+
+    function setTikoGuide(text, mood = 'happy', autoSpeak = true) {
+      currentTikoText = text;
+      currentTikoMood = mood;
+      const bar = document.getElementById('tiko-guide-bar');
+      const dialog = document.getElementById('tiko-dialog-text');
+      const avatar = document.getElementById('tiko-avatar-box');
+
+      if (bar) bar.classList.remove('hidden');
+      if (dialog) dialog.textContent = text;
+      if (avatar) avatar.innerHTML = getTikoSVG(mood);
+      if (autoSpeak) speakText(text, false);
+    }
+
+    function hideTikoGuide() {
+      const bar = document.getElementById('tiko-guide-bar');
+      if (bar) bar.classList.add('hidden');
+    }
+
+    function updateHUD() {
+      const hud = document.getElementById('main-hud');
+      if (hud) {
+        if (currentScreen === 'welcome' || currentScreen === 'greeting') {
+          hud.classList.add('hidden');
+        } else {
+          hud.classList.remove('hidden');
+        }
+      }
+
+      const mini = document.getElementById('hud-tiko-mini');
+      if (mini && !mini.innerHTML) mini.innerHTML = getTikoSVG('happy');
+
+      const nameEl = document.getElementById('hud-player-name');
+      if (nameEl) {
+        const nm = appState.playerName || 'Penjelajah Cilik';
+        const kl = appState.playerClass ? ` (${appState.playerClass})` : '';
+        nameEl.textContent = `${nm}${kl}`;
+      }
+
+      const level = Math.max(1, Math.min(7, Math.floor(appState.points / 150) + 1));
+      const levelEl = document.getElementById('hud-level');
+      const starsEl = document.getElementById('hud-stars');
+      const pointsEl = document.getElementById('hud-points');
+      const badgesEl = document.getElementById('hud-badges');
+      const soundIcon = document.getElementById('hud-sound-icon');
+
+      if (levelEl) levelEl.textContent = `Level ${level}`;
+      if (starsEl) starsEl.textContent = appState.stars;
+      if (pointsEl) pointsEl.textContent = appState.points;
+      if (badgesEl) badgesEl.textContent = `${appState.badges.length}/${BADGES_LIST.length}`;
+      if (soundIcon) {
+        soundIcon.textContent = (appState.audio.music || appState.audio.sfx || appState.audio.voice) ? '🔊' : '🔇';
+      }
+    }
+
+    function launchConfetti() {
+      const container = document.getElementById('confetti-container');
+      if (!container) return;
+      const colors = ['#2563EB', '#FACC15', '#22C55E', '#F97316', '#8B5CF6', '#EC4899'];
+      for (let i = 0; i < 36; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.backgroundColor = colors[i % colors.length];
+        piece.style.animationDelay = `${Math.random() * 0.4}s`;
+        container.appendChild(piece);
+        setTimeout(() => piece.remove(), 3200);
+      }
+    }
+
+    function awardProgress({ points = 0, stars = 0, badgeId = null, completedKey = null, title = '', message = '' }) {
+      let isNewCompletion = true;
+      if (completedKey) {
+        if (appState.completed[completedKey]) {
+          isNewCompletion = false;
+        } else {
+          appState.completed[completedKey] = true;
+        }
+      }
+
+      if (isNewCompletion) {
+        appState.points += points;
+        appState.stars += stars;
+      }
+
+      let earnedBadgeObj = null;
+      if (badgeId && !appState.badges.includes(badgeId)) {
+        appState.badges.push(badgeId);
+        earnedBadgeObj = BADGES_LIST.find(b => b.id === badgeId);
+      }
+
+      saveState();
+
+      if (isNewCompletion && (points > 0 || stars > 0 || earnedBadgeObj)) {
+        playSfx('star');
+        launchConfetti();
+        if (title || earnedBadgeObj) {
+          const rIcon = document.getElementById('reward-icon');
+          const rTitle = document.getElementById('reward-title');
+          const rMsg = document.getElementById('reward-message');
+          if (rIcon) rIcon.textContent = earnedBadgeObj ? earnedBadgeObj.icon : '⭐';
+          if (rTitle) rTitle.textContent = title || 'MANTAP SEKALI!';
+          if (rMsg) {
+            rMsg.innerHTML = `${message}${earnedBadgeObj ? `<br><span class="inline-block mt-2 bg-purple-100 text-purple-800 border-2 border-purple-300 px-3 py-1 rounded-xl font-display font-bold">🏅 Badge Baru: ${earnedBadgeObj.name}</span>` : ''}`;
+          }
+          openModal('modal-reward');
+        }
+      }
+    }
+
+    function showToast(msg, type = 'info') {
+      const existing = document.getElementById('tiko-toast');
+      if (existing) existing.remove();
+      const colors = {
+        info: 'bg-blue-600 border-yellow-300 text-white',
+        success: 'bg-green-600 border-yellow-300 text-white',
+        warn: 'bg-orange-500 border-yellow-200 text-white'
+      };
+      const div = document.createElement('div');
+      div.id = 'tiko-toast';
+      div.className = `fixed top-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl border-4 shadow-xl font-display font-bold text-base sm:text-lg text-center animate-pop ${colors[type] || colors.info}`;
+      div.textContent = msg;
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 3200);
+    }
+
+    /*************************************************************************
+     * 4. KONTROL MODAL & NAVIGASI LAYAR
+     *************************************************************************/
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      playSfx('click');
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+
+    function openAudioModal() {
+      playSfx('click');
+      syncAudioModalUI();
+      openModal('modal-audio');
+    }
+
+    function openBadgesModal() {
+      playSfx('click');
+      const grid = document.getElementById('badges-grid');
+      if (grid) {
+        grid.innerHTML = BADGES_LIST.map(b => {
+          const unlocked = appState.badges.includes(b.id);
+          return `
+            <div class="p-4 rounded-2xl border-3 text-center transition ${unlocked ? b.color + ' shadow-md' : 'bg-slate-100 border-slate-300 opacity-60'}">
+              <div class="text-4xl mb-1">${unlocked ? b.icon : '🔒'}</div>
+              <div class="font-display font-bold text-sm sm:text-base">${b.name}</div>
+              <div class="text-xs font-bold mt-1">${unlocked ? b.desc : 'Selesaikan tantangan untuk membuka!'}</div>
+            </div>
+          `;
+        }).join('');
+      }
+      openModal('modal-badges');
+    }
+
+    function navigateTo(screen) {
+      currentScreen = screen;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      updateHUD();
+
+      const app = document.getElementById('app-container');
+      if (!app) return;
+
+      if (screen === 'welcome') {
+        hideTikoGuide();
+        renderWelcomeScreen(app);
+      } else if (screen === 'greeting') {
+        hideTikoGuide();
+        renderGreetingScreen(app);
+      } else if (screen === 'map') {
+        renderMapScreen(app);
+      } else if (screen === 'world1') {
+        renderWorld1(app);
+      } else if (screen === 'world2') {
+        renderWorld2(app);
+      } else if (screen === 'world3') {
+        renderWorld3(app);
+      } else if (screen === 'world4') {
+        renderWorld4(app);
+      } else if (screen === 'city') {
+        renderCityMission(app);
+      } else if (screen === 'quiz') {
+        renderQuizScreen(app);
+      } else if (screen === 'certificate') {
+        renderReflectionAndCertificate(app);
+      }
+    }
+
+    /*************************************************************************
+     * 5. HALAMAN PEMBUKA & SAPAAN TIKO
+     *************************************************************************/
+    function renderWelcomeScreen(container) {
+      container.innerHTML = `
+        <div class="max-w-4xl mx-auto mt-2 sm:mt-4 animate-pop">
+          <!-- Bar Atas: Identitas Sekolah & Tombol Guru -->
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="bg-gradient-to-r from-blue-700 via-sky-600 to-indigo-700 text-yellow-300 border-4 border-yellow-300 px-5 py-2.5 rounded-3xl shadow-lg flex items-center gap-2.5">
+              <span class="text-2xl sm:text-3xl">🏫</span>
+              <span class="font-display font-extrabold text-xl sm:text-3xl tracking-wider uppercase drop-shadow">SD ST. MELANIA</span>
+            </div>
+            <button onclick="resetAllProgress()" class="bg-white/90 hover:bg-rose-50 text-rose-600 border-2 border-rose-200 font-display font-bold text-xs sm:text-sm px-3.5 py-2 rounded-2xl shadow-sm transition">
+              🔄 Reset Progres Kelas
+            </button>
+          </div>
+
+          <div class="card-playful p-6 sm:p-10 border-blue-400 bg-gradient-to-b from-white via-sky-50 to-amber-50 text-center relative overflow-hidden">
+            <!-- Dekorasi Ikon Digital Melayang -->
+            <div class="flex flex-wrap justify-center gap-3 sm:gap-5 mb-4 text-3xl sm:text-4xl">
+              <span class="bg-blue-100 p-2.5 rounded-2xl border-2 border-blue-300 animate-bounce" style="animation-delay:0s">💻</span>
+              <span class="bg-sky-100 p-2.5 rounded-2xl border-2 border-sky-300 animate-bounce" style="animation-delay:0.15s">📶</span>
+              <span class="bg-indigo-100 p-2.5 rounded-2xl border-2 border-indigo-300 animate-bounce" style="animation-delay:0.3s">🎧</span>
+              <span class="bg-emerald-100 p-2.5 rounded-2xl border-2 border-emerald-300 animate-bounce" style="animation-delay:0.45s">🌍</span>
+              <span class="bg-amber-100 p-2.5 rounded-2xl border-2 border-amber-300 animate-bounce" style="animation-delay:0.6s">📱</span>
+            </div>
+
+            <div class="inline-block bg-orange-500 text-white font-display font-bold text-xs sm:text-sm px-4 py-1 rounded-full mb-2 shadow">
+              INFORMATIKA KELAS III SD • BAB 4 KOMUNIKASI ANTARKOMPUTER
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-display font-bold text-blue-700 leading-tight mb-2 drop-shadow-sm">
+              PETUALANGAN TIKO DI DUNIA JARINGAN DAN INTERNET
+            </h1>
+            <p class="text-lg sm:text-2xl font-display font-bold text-orange-600 mb-6">
+              Ayo Belajar Informatika Sambil Bermain! 🚀
+            </p>
+
+            <!-- Ilustrasi Animasi Perangkat Saling Terhubung + TIKO -->
+            <div class="max-w-2xl mx-auto bg-white/90 rounded-3xl p-4 sm:p-6 border-4 border-sky-200 mb-6 shadow-inner">
+              <div class="grid grid-cols-3 items-center gap-2 relative">
+                <div class="flex flex-col items-center">
+                  <div class="text-4xl sm:text-5xl bg-blue-100 p-3 rounded-2xl border-2 border-blue-300">🖥️</div>
+                  <span class="text-xs sm:text-sm font-extrabold text-slate-700 mt-1">Komputer</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 sm:w-28 sm:h-28 animate-float">${getTikoSVG('excited')}</div>
+                  <span class="bg-yellow-300 text-blue-900 font-display font-bold text-xs px-3 py-0.5 rounded-full">Robot TIKO</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="text-4xl sm:text-5xl bg-purple-100 p-3 rounded-2xl border-2 border-purple-300">📱</div>
+                  <span class="text-xs sm:text-sm font-extrabold text-slate-700 mt-1">Smartphone</span>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-extrabold text-blue-600">
+                <span>🔌 Kabel Jaringan</span>
+                <span>•</span>
+                <span>📶 WiFi</span>
+                <span>•</span>
+                <span>🔵 Bluetooth</span>
+                <span>•</span>
+                <span>🌐 Internet</span>
+              </div>
+            </div>
+
+            <!-- Input Wajib Nama & Kelas -->
+            <div class="max-w-xl mx-auto bg-blue-50/90 p-4 sm:p-5 rounded-3xl border-3 border-blue-300 mb-6 text-left">
+              <div class="text-center font-display font-bold text-blue-800 text-base sm:text-lg mb-3">
+                ✍️ Isi Identitas Penjelajah Dulu Ya!
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="input-player-name" class="block font-display font-bold text-slate-700 text-sm mb-1">
+                    Nama Murid <span class="text-rose-600">*</span>
+                  </label>
+                  <input id="input-player-name" type="text" value="${appState.playerName || ''}" placeholder="Contoh: Budi Santoso"
+                    class="w-full px-4 py-3 rounded-2xl border-3 border-blue-300 focus:border-blue-600 focus:outline-none font-bold text-base text-slate-800 bg-white" />
+                </div>
+                <div>
+                  <label for="input-player-class" class="block font-display font-bold text-slate-700 text-sm mb-1">
+                    Kelas <span class="text-rose-600">*</span>
+                  </label>
+                  <input id="input-player-class" type="text" value="${appState.playerClass || ''}" placeholder="Contoh: 3A / III-B"
+                    class="w-full px-4 py-3 rounded-2xl border-3 border-blue-300 focus:border-blue-600 focus:outline-none font-bold text-base text-slate-800 bg-white" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Tombol Utama -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <button onclick="startAdventure()" class="btn-3d w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-display font-bold text-xl sm:text-2xl px-8 py-4 rounded-3xl flex items-center justify-center gap-2">
+                <span>🚀</span> MULAI PETUALANGAN
+              </button>
+              <button onclick="playSfx('click'); openModal('modal-guide')" class="btn-3d w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-display font-bold text-lg px-6 py-4 rounded-3xl flex items-center justify-center gap-2">
+                <span>📖</span> PETUNJUK
+              </button>
+              <button onclick="openAudioModal()" class="btn-3d w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-lg px-6 py-4 rounded-3xl flex items-center justify-center gap-2">
+                <span>🔊</span> PENGATURAN SUARA
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function startAdventure() {
+      const nameInput = document.getElementById('input-player-name');
+      const classInput = document.getElementById('input-player-class');
+      const nameVal = nameInput ? nameInput.value.trim() : '';
+      const classVal = classInput ? classInput.value.trim() : '';
+
+      if (!nameVal) {
+        playSfx('wrong');
+        showToast('⚠️ Isi Nama Murid terlebih dahulu sebelum mulai ya!', 'warn');
+        if (nameInput) nameInput.focus();
+        return;
+      }
+      if (!classVal) {
+        playSfx('wrong');
+        showToast('⚠️ Isi Kelas terlebih dahulu sebelum mulai ya!', 'warn');
+        if (classInput) classInput.focus();
+        return;
+      }
+
+      appState.playerName = nameVal;
+      appState.playerClass = classVal;
+      saveState();
+
+      initAudioContext();
+      startBgm(false);
+      playSfx('connect');
+      navigateTo('greeting');
+    }
+
+    function renderGreetingScreen(container) {
+      const greetingMsg = `Halo teman-teman! Aku TIKO. Selamat datang ${appState.playerName} dari kelas ${appState.playerClass}! Hari ini kita akan menjelajahi dunia jaringan komputer dan internet. Kita akan belajar, bermain, dan menyelesaikan berbagai tantangan. Siap?`;
+      speakText(greetingMsg, false);
+
+      container.innerHTML = `
+        <div class="max-w-3xl mx-auto mt-4 animate-pop">
+          <div class="flex justify-end mb-3">
+            <div class="bg-gradient-to-r from-blue-700 via-sky-600 to-indigo-700 text-yellow-300 border-3 border-yellow-300 px-4 py-1.5 rounded-2xl shadow flex items-center gap-2">
+              <span class="text-xl">🏫</span>
+              <span class="font-display font-extrabold text-lg sm:text-2xl tracking-wider uppercase">SD ST. MELANIA</span>
+            </div>
+          </div>
+
+          <div class="card-playful p-6 sm:p-10 text-center border-yellow-400 bg-gradient-to-b from-blue-600 via-blue-500 to-sky-500 text-white">
+            <div class="w-36 h-36 sm:w-44 sm:h-44 mx-auto bg-white/20 rounded-full p-3 border-4 border-yellow-300 mb-5 animate-float">
+              ${getTikoSVG('excited')}
+            </div>
+            <div class="inline-block bg-yellow-300 text-blue-950 font-display font-bold text-sm px-4 py-1 rounded-full mb-3">
+              🤖 SAPAAN SAHABAT DIGITAL
+            </div>
+            <p class="text-xl sm:text-2xl md:text-3xl font-bold leading-relaxed mb-6">
+              "Halo teman-teman! Aku <span class="text-yellow-300">TIKO</span>. Hari ini kita akan menjelajahi dunia jaringan komputer dan internet. Kita akan belajar, bermain, dan menyelesaikan berbagai tantangan. Siap?"
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button onclick="speakText('${greetingMsg.replace(/'/g, "\\'")}', true)" class="btn-3d bg-yellow-400 hover:bg-yellow-300 text-blue-950 font-display font-bold text-lg px-6 py-3.5 rounded-2xl">
+                🗣️ DENGARKAN TIKO
+              </button>
+              <button onclick="playSfx('star'); navigateTo('map')" class="btn-3d bg-green-500 hover:bg-green-600 text-white font-display font-bold text-2xl px-10 py-4 rounded-3xl">
+                AYO, MULAI! 🚀
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /*************************************************************************
+     * 6. PETA PEMBELAJARAN 4 DUNIA + MISI + KUIS + SERTIFIKAT
+     *************************************************************************/
+    function renderMapScreen(container) {
+      setTikoGuide(`Pilih salah satu dari 4 Dunia Petualangan di bawah ini, ${appState.playerName}! Selesaikan semuanya untuk menjadi Juara Digital!`, 'happy');
+
+      const totalSteps = 10;
+      const doneCount = Object.values(appState.completed).filter(Boolean).length;
+      const progressPct = Math.round((doneCount / totalSteps) * 100);
+
+      const worlds = [
+        {
+          id: 'world1',
+          num: 'DUNIA 1',
+          title: 'JARINGAN KOMPUTER',
+          icon: '🖥️',
+          desc: 'Belajar bagaimana komputer saling terhubung, berbagi pesan, file, dan printer.',
+          done: appState.completed.world1,
+          badge: 'AHLI JARINGAN',
+          cardStyle: 'border-blue-400 from-blue-50 to-sky-100',
+          btnStyle: 'bg-blue-600 hover:bg-blue-700'
+        },
+        {
+          id: 'world2',
+          num: 'DUNIA 2',
+          title: 'JARINGAN BERKABEL & NIRKABEL',
+          icon: '🔌',
+          desc: 'Membedakan jaringan yang memakai kabel dan tanpa kabel (gelombang sinyal).',
+          done: appState.completed.world2,
+          badge: 'PENJELAJAH KABEL',
+          cardStyle: 'border-orange-400 from-orange-50 to-amber-100',
+          btnStyle: 'bg-orange-500 hover:bg-orange-600'
+        },
+        {
+          id: 'world3',
+          num: 'DUNIA 3',
+          title: 'BLUETOOTH DAN WIFI',
+          icon: '📶',
+          desc: 'Simulasi menyambungkan speaker Bluetooth dan masuk ke WiFi dengan kata sandi.',
+          done: appState.completed.world3_bt && appState.completed.world3_wifi && appState.completed.world3_game,
+          badge: 'MASTER BLUETOOTH & SAHABAT WIFI',
+          cardStyle: 'border-emerald-400 from-emerald-50 to-teal-100',
+          btnStyle: 'bg-emerald-600 hover:bg-emerald-700'
+        },
+        {
+          id: 'world4',
+          num: 'DUNIA 4',
+          title: 'INTERNET DAN BROWSER',
+          icon: '🌐',
+          desc: 'Menjelajah manfaat internet, keamanan digital, dan mencoba Browser TIKO Virtual!',
+          done: appState.completed.world4_net && appState.completed.world4_browser,
+          badge: 'PENJELAJAH INTERNET & DETEKTIF BROWSER',
+          cardStyle: 'border-purple-400 from-purple-50 to-indigo-100',
+          btnStyle: 'bg-purple-600 hover:bg-purple-700'
+        }
+      ];
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-pop">
+          <!-- Progress Bar Petualangan -->
+          <div class="card-playful p-4 sm:p-6 border-sky-300">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h2 class="text-xl sm:text-2xl font-display font-bold text-slate-800">🗺️ Peta Petualangan Belajar</h2>
+              <span class="bg-blue-100 text-blue-800 font-display font-bold px-3.5 py-1 rounded-full text-sm">
+                Progres: ${doneCount}/${totalSteps} Tantangan (${progressPct}%)
+              </span>
+            </div>
+            <div class="w-full h-5 bg-slate-200 rounded-full overflow-hidden border-2 border-slate-300">
+              <div class="h-full bg-gradient-to-r from-green-400 via-sky-500 to-blue-600 transition-all duration-500" style="width: ${progressPct}%"></div>
+            </div>
+          </div>
+
+          <!-- Grid 4 Dunia -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${worlds.map(w => `
+              <div class="card-playful p-5 sm:p-6 bg-gradient-to-br ${w.cardStyle} flex flex-col justify-between relative">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="bg-white border-2 border-slate-300 font-display font-bold text-xs sm:text-sm px-3 py-1 rounded-full text-slate-700">${w.num}</span>
+                    <span class="font-display font-bold text-sm px-3 py-1 rounded-full ${w.done ? 'bg-green-500 text-white' : 'bg-yellow-200 text-amber-900'}">
+                      ${w.done ? '✅ Selesai' : '⭐ Belum Selesai'}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-3 mb-2">
+                    <div class="text-4xl sm:text-5xl bg-white p-3 rounded-2xl shadow-sm">${w.icon}</div>
+                    <h3 class="text-xl sm:text-2xl font-display font-bold text-slate-800">${w.title}</h3>
+                  </div>
+                  <p class="text-slate-700 font-bold text-base mb-3">${w.desc}</p>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-slate-600 mb-3">🏅 Hadiah: ${w.badge}</div>
+                  <button onclick="playSfx('click'); navigateTo('${w.id}')" class="btn-3d w-full ${w.btnStyle} text-white font-display font-bold text-lg py-3 rounded-2xl">
+                    ${w.done ? 'ULANGI BELAJAR 🔄' : 'MASUK DUNIA 🚀'}
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Zona Tantangan Akhir, Kuis & Sertifikat -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card-playful p-5 border-rose-400 bg-gradient-to-br from-rose-50 to-orange-50 text-center flex flex-col justify-between">
+              <div>
+                <div class="text-4xl mb-2">🦸‍♂️</div>
+                <h3 class="text-xl font-display font-bold text-rose-700 mb-1">SELAMATKAN KOTA DIGITAL!</h3>
+                <p class="text-sm font-bold text-slate-600 mb-4">5 Misi seru memperbaiki jaringan kota yang terputus!</p>
+              </div>
+              <button onclick="playSfx('click'); navigateTo('city')" class="btn-3d w-full bg-rose-600 hover:bg-rose-700 text-white font-display font-bold text-base py-3 rounded-2xl">
+                ${appState.completed.city_mission ? '✅ MAIN LAGI' : '🚨 MULAI 5 MISI'}
+              </button>
+            </div>
+
+            <div class="card-playful p-5 border-indigo-400 bg-gradient-to-br from-indigo-50 to-purple-50 text-center flex flex-col justify-between">
+              <div>
+                <div class="text-4xl mb-2">🧠</div>
+                <h3 class="text-xl font-display font-bold text-indigo-700 mb-1">KUIS 15 SOAL INTERAKTIF</h3>
+                <p class="text-sm font-bold text-slate-600 mb-4">Skor Terbaikmu: <span class="text-indigo-700 font-black">${appState.quizBestScore}/15</span></p>
+              </div>
+              <button onclick="playSfx('click'); navigateTo('quiz')" class="btn-3d w-full bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-base py-3 rounded-2xl">
+                📝 KERJAKAN KUIS
+              </button>
+            </div>
+
+            <div class="card-playful p-5 border-amber-400 bg-gradient-to-br from-amber-50 to-yellow-100 text-center flex flex-col justify-between">
+              <div>
+                <div class="text-4xl mb-2">🎓</div>
+                <h3 class="text-xl font-display font-bold text-amber-800 mb-1">REFLEKSI & SERTIFIKAT</h3>
+                <p class="text-sm font-bold text-slate-600 mb-4">Isi refleksi belajarmu & cetak Sertifikat Penjelajah Digital!</p>
+              </div>
+              <button onclick="playSfx('click'); navigateTo('certificate')" class="btn-3d w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-display font-bold text-base py-3 rounded-2xl">
+                🏆 LIHAT SERTIFIKAT
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /*************************************************************************
+     * 7. DUNIA 1: JARINGAN KOMPUTER
+     *************************************************************************/
+    let w1SelectedMsg = '🐱 Gambar Kucing Lucu';
+    let w1MsgSent = false;
+    let w1SimState = { pc1: false, pc2: false, pc3: false, linked: false };
+
+    function renderWorld1(container) {
+      setTikoGuide('Selamat datang di Dunia 1! Jaringan komputer adalah hubungan antara dua atau lebih komputer agar dapat saling berkomunikasi dan berbagi informasi.', 'happy');
+
+      const examples = [
+        { title: 'Dua Komputer', icons: '🖥️ ↔️ 🖥️', desc: 'Saling berkirim pesan dan file tugas dengan cepat.' },
+        { title: 'Komputer & Printer', icons: '🖥️ ↔️ 🖨️', desc: 'Beberapa komputer bisa memakai 1 printer bersama.' },
+        { title: 'Laptop & Komputer', icons: '💻 ↔️ 🖥️', desc: 'Berbagi dokumen pelajaran di ruang kelas atau rumah.' },
+        { title: 'Smartphone & Laptop', icons: '📱 ↔️ 💻', desc: 'Memindahkan foto atau tugas antarperangkat digital.' }
+      ];
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-pop">
+          <div class="flex items-center justify-between">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Kembali ke Peta</button>
+            <span class="bg-blue-600 text-white font-display font-bold px-4 py-1.5 rounded-full text-sm">DUNIA 1 • JARINGAN KOMPUTER</span>
+          </div>
+
+          <!-- Materi Pengertian & Alur Komunikasi -->
+          <div class="card-playful p-6 border-blue-400">
+            <h2 class="text-2xl sm:text-3xl font-display font-bold text-blue-700 mb-3">🖥️ Apa Itu Jaringan Komputer?</h2>
+            <p class="text-lg sm:text-xl font-bold text-slate-700 bg-blue-50 p-4 rounded-2xl border-2 border-blue-200 mb-4">
+              "<strong>Jaringan komputer</strong> adalah hubungan antara <strong>dua atau lebih komputer atau perangkat</strong> agar dapat saling berkomunikasi dan berbagi informasi."
+            </p>
+
+            <!-- 3 Unsur Komunikasi -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+              <div class="bg-sky-50 p-3.5 rounded-2xl border-2 border-sky-200 text-center">
+                <div class="text-3xl mb-1">📤</div>
+                <div class="font-display font-bold text-blue-800">1. Pengirim</div>
+                <div class="text-sm font-bold text-slate-600">Komputer yang mengirim pesan atau data.</div>
+              </div>
+              <div class="bg-yellow-50 p-3.5 rounded-2xl border-2 border-yellow-200 text-center">
+                <div class="text-3xl mb-1">🔗</div>
+                <div class="font-display font-bold text-amber-800">2. Media Penghubung</div>
+                <div class="text-sm font-bold text-slate-600">Kabel jaringan atau gelombang tanpa kabel.</div>
+              </div>
+              <div class="bg-emerald-50 p-3.5 rounded-2xl border-2 border-emerald-200 text-center">
+                <div class="text-3xl mb-1">📥</div>
+                <div class="font-display font-bold text-emerald-800">3. Penerima</div>
+                <div class="text-sm font-bold text-slate-600">Komputer atau printer yang menerima data.</div>
+              </div>
+            </div>
+
+            <!-- Galeri Ilustrasi Perangkat Terhubung -->
+            <h3 class="text-lg font-display font-bold text-slate-800 mb-2">Contoh Hubungan Perangkat:</h3>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+              ${examples.map(ex => `
+                <div class="bg-white p-3 rounded-2xl border-2 border-slate-200 text-center shadow-sm">
+                  <div class="text-2xl sm:text-3xl mb-1">${ex.icons}</div>
+                  <div class="font-display font-bold text-blue-700 text-sm">${ex.title}</div>
+                  <div class="text-xs font-bold text-slate-600 mt-1">${ex.desc}</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Animasi Pengiriman Pesan Komputer A -> Komputer B -->
+            <div class="bg-slate-900 text-white p-5 rounded-3xl border-4 border-sky-400">
+              <div class="font-display font-bold text-yellow-300 text-base sm:text-lg mb-3 text-center">
+                ✉️ Percobaan Animasi: Kirim Pesan dari Komputer A ke Komputer B
+              </div>
+              <div class="flex flex-wrap justify-center gap-2 mb-4">
+                ${['🐱 Gambar Kucing Lucu', '📄 Tugas Sekolah', '👋 Halo Teman!'].map(msg => `
+                  <button onclick="w1SelectedMsg='${msg}'; playSfx('click'); renderWorld1(document.getElementById('app-container'))"
+                    class="px-3 py-1.5 rounded-xl font-display font-bold text-xs sm:text-sm border-2 transition ${w1SelectedMsg === msg ? 'bg-yellow-400 text-slate-900 border-yellow-200' : 'bg-slate-800 text-slate-200 border-slate-600'}">
+                    ${msg}
+                  </button>
+                `).join('')}
+              </div>
+
+              <div class="grid grid-cols-3 items-center gap-2 my-4">
+                <div class="text-center">
+                  <div class="text-4xl sm:text-5xl">🖥️</div>
+                  <div class="font-display font-bold text-sm text-sky-300 mt-1">Komputer A</div>
+                </div>
+                <div class="relative h-12 flex items-center justify-center">
+                  <div class="w-full h-2 bg-sky-500 rounded-full"></div>
+                  ${w1MsgSent ? `<div class="absolute bg-yellow-300 text-slate-900 font-display font-bold text-xs px-2.5 py-1 rounded-full shadow-lg animate-bounce">${w1SelectedMsg}</div>` : ''}
+                </div>
+                <div class="text-center">
+                  <div class="text-4xl sm:text-5xl">🖥️</div>
+                  <div class="font-display font-bold text-sm text-emerald-300 mt-1">Komputer B</div>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button onclick="sendW1Message()" class="btn-3d bg-sky-500 hover:bg-sky-400 text-slate-950 font-display font-bold px-6 py-2.5 rounded-2xl">
+                  🚀 KIRIM PESAN SEKARANG!
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Manfaat Jaringan -->
+          <div class="card-playful p-6 border-emerald-400 bg-emerald-50/70">
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-emerald-800 mb-3">🌟 5 Manfaat Jaringan Komputer</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+              <div class="bg-white p-3 rounded-2xl border-2 border-emerald-200"><div class="text-3xl">✉️</div><div class="font-display font-bold text-sm mt-1">Mengirim Informasi</div></div>
+              <div class="bg-white p-3 rounded-2xl border-2 border-emerald-200"><div class="text-3xl">📂</div><div class="font-display font-bold text-sm mt-1">Berbagi File</div></div>
+              <div class="bg-white p-3 rounded-2xl border-2 border-emerald-200"><div class="text-3xl">🖨️</div><div class="font-display font-bold text-sm mt-1">Berbagi Printer</div></div>
+              <div class="bg-white p-3 rounded-2xl border-2 border-emerald-200"><div class="text-3xl">💬</div><div class="font-display font-bold text-sm mt-1">Berkomunikasi</div></div>
+              <div class="bg-white p-3 rounded-2xl border-2 border-emerald-200 col-span-2 sm:col-span-1"><div class="text-3xl">🔗</div><div class="font-display font-bold text-sm mt-1">Menghubungkan Perangkat</div></div>
+            </div>
+          </div>
+
+          <!-- Simulasi Interaktif: 3 Komputer & 1 Printer -->
+          <div class="card-playful p-6 border-yellow-400 bg-gradient-to-b from-amber-50 to-white">
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-amber-800 mb-1">🎮 Simulasi Praktik: Hubungkan 3 Komputer ke Printer</h3>
+            <p class="font-bold text-slate-600 mb-4">Klik ketiga komputer agar menyala, lalu tekan tombol <strong>"COBA HUBUNGKAN!"</strong></p>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center bg-slate-100 p-5 rounded-3xl border-3 border-slate-300">
+              ${['pc1', 'pc2', 'pc3'].map((k, idx) => {
+                const on = w1SimState[k];
+                return `
+                  <button onclick="toggleW1Pc('${k}')" class="p-4 rounded-2xl border-3 transition text-center ${on ? 'bg-blue-600 text-white border-yellow-300 shadow-lg' : 'bg-white text-slate-700 border-slate-300 hover:border-blue-400'}">
+                    <div class="text-4xl mb-1">${on ? '🖥️✨' : '🖥️'}</div>
+                    <div class="font-display font-bold">Komputer ${idx + 1}</div>
+                    <div class="text-xs font-extrabold mt-1">${on ? '✅ MENYALA' : 'Klik untuk Nyalakan'}</div>
+                    ${w1SimState.linked ? '<div class="mt-2 text-xs bg-green-400 text-slate-950 font-bold rounded-full px-2 py-0.5">Terhubung ke Printer</div>' : ''}
+                  </button>
+                `;
+              }).join('')}
+
+              <div class="p-4 rounded-2xl border-3 text-center ${w1SimState.linked ? 'bg-emerald-500 text-white border-yellow-300 animate-printer' : 'bg-white text-slate-700 border-slate-300'}">
+                <div class="text-5xl mb-1">🖨️</div>
+                <div class="font-display font-bold">Printer Bersama</div>
+                ${w1SimState.linked ? '<div class="mt-2 bg-white text-emerald-900 text-xs font-black px-2 py-1 rounded-xl animate-paper">📄 Kertas Hasil Cetak Keluar!</div>' : '<div class="text-xs font-bold text-slate-500 mt-1">Menunggu sambungan...</div>'}
+              </div>
+            </div>
+
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <button onclick="connectW1Printer()" class="btn-3d bg-green-500 hover:bg-green-600 text-white font-display font-bold text-lg px-7 py-3.5 rounded-2xl">
+                🔌 COBA HUBUNGKAN!
+              </button>
+              ${appState.completed.world1 ? `
+                <button onclick="playSfx('click'); navigateTo('world2')" class="btn-3d bg-blue-600 hover:bg-blue-700 text-white font-display font-bold text-lg px-7 py-3.5 rounded-2xl">
+                  LANJUT KE DUNIA 2 ➡️
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function sendW1Message() {
+      w1MsgSent = true;
+      playSfx('connect');
+      setTikoGuide('Jika komputer saling terhubung, komputer dapat mengirim dan menerima informasi. Itulah salah satu manfaat jaringan komputer!', 'excited');
+      renderWorld1(document.getElementById('app-container'));
+    }
+
+    function toggleW1Pc(key) {
+      w1SimState[key] = !w1SimState[key];
+      playSfx('click');
+      renderWorld1(document.getElementById('app-container'));
+    }
+
+    function connectW1Printer() {
+      if (!w1SimState.pc1 || !w1SimState.pc2 || !w1SimState.pc3) {
+        playSfx('wrong');
+        setTikoGuide('Nyalakan dulu ketiga komputernya dengan mengklik Komputer 1, Komputer 2, dan Komputer 3 ya!', 'thinking');
+        showToast('💡 Klik semua 3 komputer sampai menyala dulu!', 'warn');
+        return;
+      }
+      w1SimState.linked = true;
+      renderWorld1(document.getElementById('app-container'));
+      awardProgress({
+        points: 100,
+        stars: 3,
+        badgeId: 'ahli_jaringan',
+        completedKey: 'world1',
+        title: 'DUNIA 1 SELESAI!',
+        message: 'Luar biasa! Kamu berhasil menghubungkan 3 komputer ke 1 printer bersama!'
+      });
+    }
+
+    /*************************************************************************
+     * 8. DUNIA 2: JARINGAN BERKABEL DAN NIRKABEL + PERMAINAN KELOMPOKKAN
+     *************************************************************************/
+    let w2CableStep = 0;
+    let w2WaveActive = false;
+    const W2_ITEMS = [
+      { id: 'c1', name: 'Kabel Jaringan (LAN)', icon: '🔌', type: 'wired' },
+      { id: 'w1', name: 'Sinyal WiFi', icon: '📶', type: 'wireless' },
+      { id: 'c2', name: 'Komputer Terhubung Kabel', icon: '🖥️', type: 'wired' },
+      { id: 'w2', name: 'Bluetooth', icon: '🔵', type: 'wireless' },
+      { id: 'c3', name: 'Switch / Hub Jaringan', icon: '🎛️', type: 'wired' },
+      { id: 'w3', name: 'Smartphone Tanpa Kabel', icon: '📱', type: 'wireless' }
+    ];
+    let w2Sorted = {}; // id -> 'wired' | 'wireless'
+    let w2SelectedItem = null;
+
+    function renderWorld2(container) {
+      setTikoGuide('Di Dunia 2, kita belajar dua cara menghubungkan komputer: Jaringan Berkabel yang memakai kabel, dan Jaringan Nirkabel yang tanpa kabel!', 'happy');
+
+      const remainingItems = W2_ITEMS.filter(it => !w2Sorted[it.id]);
+      const wiredItems = W2_ITEMS.filter(it => w2Sorted[it.id] === 'wired');
+      const wirelessItems = W2_ITEMS.filter(it => w2Sorted[it.id] === 'wireless');
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-pop">
+          <div class="flex items-center justify-between">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Kembali ke Peta</button>
+            <span class="bg-orange-500 text-white font-display font-bold px-4 py-1.5 rounded-full text-sm">DUNIA 2 • BERKABEL & NIRKABEL</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- A. Jaringan Berkabel -->
+            <div class="card-playful p-5 sm:p-6 border-blue-400 bg-blue-50/70">
+              <h3 class="text-xl sm:text-2xl font-display font-bold text-blue-800 mb-2">🔌 A. Jaringan Berkabel</h3>
+              <p class="font-bold text-slate-700 bg-white p-3 rounded-2xl border-2 border-blue-200 mb-3">
+                "<strong>Jaringan berkabel</strong> adalah jaringan komputer yang menggunakan <strong>kabel</strong> untuk menghubungkan perangkat."
+              </p>
+              <div class="text-sm font-bold text-slate-700 space-y-1 mb-4">
+                <div>• <strong>Perangkat:</strong> Komputer, Kabel Jaringan, Server, Switch, Hub.</div>
+                <div>• <strong>Contoh tempat:</strong> Laboratorium komputer sekolah, kantor, warnet.</div>
+              </div>
+
+              <!-- Visualisasi Interaktif Kabel -->
+              <div class="bg-white p-4 rounded-2xl border-2 border-blue-300 text-center">
+                <div class="flex items-center justify-around text-3xl sm:text-4xl mb-2">
+                  <span>🖥️</span>
+                  <span class="text-base font-black ${w2CableStep >= 1 ? 'text-blue-600' : 'text-slate-300'}">${w2CableStep >= 1 ? '━━━🔌━━━' : '┄┄┄┄┄'}</span>
+                  <span>🎛️ Switch</span>
+                  <span class="text-base font-black ${w2CableStep >= 2 ? 'text-blue-600' : 'text-slate-300'}">${w2CableStep >= 2 ? '━━━🔌━━━' : '┄┄┄┄┄'}</span>
+                  <span>🗄️ Server</span>
+                </div>
+                <button onclick="advanceW2Cable()" class="btn-3d bg-blue-600 hover:bg-blue-700 text-white font-display font-bold text-sm px-4 py-2 rounded-xl mt-2">
+                  ${w2CableStep === 0 ? '🔌 Pasang Kabel ke Switch' : w2CableStep === 1 ? '🔌 Sambungkan Switch ke Server' : '✅ Semua Kabel Terpasang!'}
+                </button>
+              </div>
+            </div>
+
+            <!-- B. Jaringan Nirkabel -->
+            <div class="card-playful p-5 sm:p-6 border-emerald-400 bg-emerald-50/70">
+              <h3 class="text-xl sm:text-2xl font-display font-bold text-emerald-800 mb-2">📡 B. Jaringan Nirkabel</h3>
+              <p class="font-bold text-slate-700 bg-white p-3 rounded-2xl border-2 border-emerald-200 mb-3">
+                "<strong>Jaringan nirkabel</strong> adalah jaringan yang menghubungkan perangkat <strong>tanpa menggunakan kabel</strong> (memakai gelombang sinyal)."
+              </p>
+              <div class="text-sm font-bold text-slate-700 space-y-1 mb-4">
+                <div>• <strong>Perangkat:</strong> Laptop, Smartphone, Tablet, Router WiFi.</div>
+                <div>• <strong>Contoh:</strong> Laptop terhubung WiFi, smartphone terhubung internet.</div>
+              </div>
+
+              <!-- Visualisasi Interaktif Gelombang -->
+              <div class="bg-white p-4 rounded-2xl border-2 border-emerald-300 text-center">
+                <div class="flex items-center justify-around text-3xl sm:text-4xl mb-2">
+                  <span>📡 Router</span>
+                  <span class="text-lg font-black ${w2WaveActive ? 'text-emerald-600 animate-pulse' : 'text-slate-300'}">${w2WaveActive ? '))) 📶 (((' : '• • •'}</span>
+                  <span>💻📱</span>
+                </div>
+                <button onclick="w2WaveActive = true; playSfx('connect'); setTikoGuide('Jaringan nirkabel membuat perangkat dapat terhubung tanpa menggunakan kabel!', 'excited'); renderWorld2(document.getElementById('app-container'))"
+                  class="btn-3d bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-sm px-4 py-2 rounded-xl mt-2">
+                  ${w2WaveActive ? '✅ Gelombang Sinyal Aktif!' : '📶 Pancarkan Gelombang Nirkabel'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PERMAINAN: KELOMPOKKAN PERANGKAT! -->
+          <div class="card-playful p-6 border-orange-400 bg-gradient-to-b from-orange-50 to-white">
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-orange-700 mb-1">🎮 Permainan: "KELOMPOKKAN PERANGKAT!"</h3>
+            <p class="font-bold text-slate-600 mb-4">Seret (<em>drag-and-drop</em>) atau klik gambar perangkat lalu klik kotak kelompok yang benar!</p>
+
+            <!-- Daftar Item yang Belum Dikelompokkan -->
+            <div class="flex flex-wrap justify-center gap-3 min-h-[76px] p-3 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 mb-5">
+              ${remainingItems.length === 0
+                ? '<div class="font-display font-bold text-green-600 text-lg py-2">🎉 Semua perangkat berhasil dikelompokkan dengan benar!</div>'
+                : remainingItems.map(it => `
+                    <div draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${it.id}')"
+                      onclick="selectW2Item('${it.id}')"
+                      class="cursor-pointer select-none px-4 py-2.5 rounded-2xl border-3 font-display font-bold text-sm sm:text-base flex items-center gap-2 transition ${w2SelectedItem === it.id ? 'bg-yellow-300 border-orange-500 scale-105 shadow-md' : 'bg-white border-slate-300 hover:border-blue-400'}">
+                      <span class="text-2xl">${it.icon}</span>
+                      <span>${it.name}</span>
+                    </div>
+                  `).join('')
+              }
+            </div>
+
+            <!-- 2 Kotak Dropzone -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div ondragover="event.preventDefault()" ondrop="dropW2Item(event, 'wired')" onclick="placeSelectedW2Item('wired')"
+                class="cursor-pointer p-5 rounded-3xl border-4 border-dashed border-blue-400 bg-blue-50 hover:bg-blue-100/80 min-h-[160px] transition">
+                <div class="font-display font-bold text-lg sm:text-xl text-blue-800 text-center mb-3">🔌 JARINGAN BERKABEL</div>
+                <div class="flex flex-wrap justify-center gap-2">
+                  ${wiredItems.map(it => `<span class="bg-blue-600 text-white font-display font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl">${it.icon} ${it.name}</span>`).join('')}
+                </div>
+              </div>
+
+              <div ondragover="event.preventDefault()" ondrop="dropW2Item(event, 'wireless')" onclick="placeSelectedW2Item('wireless')"
+                class="cursor-pointer p-5 rounded-3xl border-4 border-dashed border-emerald-400 bg-emerald-50 hover:bg-emerald-100/80 min-h-[160px] transition">
+                <div class="font-display font-bold text-lg sm:text-xl text-emerald-800 text-center mb-3">📶 JARINGAN NIRKABEL</div>
+                <div class="flex flex-wrap justify-center gap-2">
+                  ${wirelessItems.map(it => `<span class="bg-emerald-600 text-white font-display font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl">${it.icon} ${it.name}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+
+            ${appState.completed.world2 ? `
+              <div class="mt-5 text-center">
+                <button onclick="playSfx('click'); navigateTo('world3')" class="btn-3d bg-orange-500 hover:bg-orange-600 text-white font-display font-bold text-lg px-8 py-3.5 rounded-2xl">
+                  LANJUT KE DUNIA 3 ➡️
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function advanceW2Cable() {
+      w2CableStep = Math.min(2, w2CableStep + 1);
+      playSfx('connect');
+      setTikoGuide('Jaringan berkabel menggunakan kabel untuk menghubungkan perangkat. Kabel membantu perangkat saling mengirim informasi.', 'happy');
+      renderWorld2(document.getElementById('app-container'));
+    }
+
+    function selectW2Item(id) {
+      w2SelectedItem = (w2SelectedItem === id) ? null : id;
+      playSfx('click');
+      renderWorld2(document.getElementById('app-container'));
+    }
+
+    function dropW2Item(event, targetType) {
+      event.preventDefault();
+      const id = event.dataTransfer.getData('text/plain');
+      if (id) classifyW2Item(id, targetType);
+    }
+
+    function placeSelectedW2Item(targetType) {
+      if (!w2SelectedItem) return;
+      classifyW2Item(w2SelectedItem, targetType);
+      w2SelectedItem = null;
+    }
+
+    function classifyW2Item(id, targetType) {
+      const item = W2_ITEMS.find(x => x.id === id);
+      if (!item) return;
+
+      if (item.type === targetType) {
+        w2Sorted[id] = targetType;
+        playSfx('correct');
+        showToast(`⭐ Benar! ${item.name} masuk kelompok ${targetType === 'wired' ? 'Jaringan Berkabel' : 'Jaringan Nirkabel'}!`, 'success');
+        renderWorld2(document.getElementById('app-container'));
+
+        if (Object.keys(w2Sorted).length === W2_ITEMS.length) {
+          awardProgress({
+            points: 120,
+            stars: 3,
+            badgeId: 'penjelajah_kabel',
+            completedKey: 'world2',
+            title: 'DUNIA 2 SELESAI!',
+            message: 'Hebat! Kamu sudah paham perbedaan jaringan berkabel dan nirkabel!'
+          });
+        }
+      } else {
+        playSfx('wrong');
+        setTikoGuide(`Petunjuk TIKO: Perhatikan apakah "${item.name}" memakai kabel fisik atau gelombang tanpa kabel ya! Coba lagi!`, 'thinking');
+        showToast('🤔 Belum tepat, coba kelompok lainnya!', 'warn');
+      }
+    }
+
+    /*************************************************************************
+     * 9. DUNIA 3: BLUETOOTH DAN WIFI
+     *************************************************************************/
+    let w3BtStep = 0; // 0=off, 1=scanning, 2=connected
+    let w3WifiStep = 0; // 0=off, 1=select, 2=password, 3=connected
+    let w3GameIndex = 0;
+    let w3GameFeedback = '';
+
+    const W3_SCENARIOS = [
+      { text: 'Menghubungkan ponsel ke speaker dalam jarak dekat.', ans: 'BLUETOOTH', exp: 'Bluetooth cocok untuk menghubungkan ponsel dengan speaker di jarak dekat tanpa internet.' },
+      { text: 'Menghubungkan laptop ke internet di rumah.', ans: 'WIFI', exp: 'WiFi digunakan untuk menghubungkan laptop ke jaringan internet di rumah atau sekolah.' },
+      { text: 'Menghubungkan headphone nirkabel ke ponsel.', ans: 'BLUETOOTH', exp: 'Headphone nirkabel tersambung ke ponsel memakai gelombang radio jarak dekat Bluetooth.' },
+      { text: 'Menghubungkan tablet ke jaringan internet sekolah.', ans: 'WIFI', exp: 'WiFi Sekolah menghubungkan tablet ke jaringan internet dengan kata sandi yang aman.' },
+      { text: 'Mengirim file foto dari satu ponsel ke ponsel teman di dekatmu.', ans: 'BLUETOOTH', exp: 'Bluetooth dapat mengirim file antarponsel dalam jarak dekat tanpa kabel.' }
+    ];
+
+    function renderWorld3(container) {
+      setTikoGuide('Di Dunia 3, kita akan mempraktikkan Bluetooth untuk jarak dekat dan WiFi untuk terhubung ke jaringan internet!', 'happy');
+      const sc = W3_SCENARIOS[w3GameIndex % W3_SCENARIOS.length];
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-pop">
+          <div class="flex items-center justify-between">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Kembali ke Peta</button>
+            <span class="bg-emerald-600 text-white font-display font-bold px-4 py-1.5 rounded-full text-sm">DUNIA 3 • BLUETOOTH & WIFI</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- A. BLUETOOTH -->
+            <div class="card-playful p-5 sm:p-6 border-sky-400 bg-sky-50/70">
+              <h3 class="text-xl sm:text-2xl font-display font-bold text-sky-800 mb-2">🔵 A. Teknologi Bluetooth</h3>
+              <p class="font-bold text-slate-700 bg-white p-3 rounded-2xl border-2 border-sky-200 mb-3">
+                "<strong>Bluetooth</strong> adalah teknologi yang memungkinkan perangkat berkomunikasi tanpa kabel menggunakan <strong>gelombang radio jarak dekat</strong>."
+              </p>
+              <div class="text-sm font-bold text-slate-700 mb-4">
+                Kegunaan: Menghubungkan ponsel dengan speaker/headphone, dan mengirim file antarperangkat dalam jarak dekat.
+              </div>
+
+              <!-- Simulasi Bluetooth -->
+              <div class="bg-white p-4 rounded-3xl border-3 border-sky-300 text-center">
+                <div class="font-display font-bold text-sky-700 mb-3">Simulasi Bluetooth: Ponsel & Speaker</div>
+                <div class="flex items-center justify-around mb-4">
+                  <div>
+                    <div class="text-4xl">📱</div>
+                    <div class="text-xs font-extrabold mt-1">Smartphone</div>
+                  </div>
+                  <div class="text-2xl font-black ${w3BtStep >= 1 ? 'text-blue-600 animate-pulse' : 'text-slate-300'}">
+                    ${w3BtStep === 0 ? '✖️' : w3BtStep === 1 ? '🔵 Mencari...' : '🔵━━🎶━━🔵'}
+                  </div>
+                  <div onclick="if(w3BtStep===2){ playSfx('star'); showToast('🎵 Speaker memainkan lagu ceria!', 'success'); }"
+                    class="${w3BtStep === 2 ? 'cursor-pointer animate-bounce' : 'opacity-50'}">
+                    <div class="text-4xl">🔊</div>
+                    <div class="text-xs font-extrabold mt-1">Speaker TIKO</div>
+                  </div>
+                </div>
+
+                ${w3BtStep === 0 ? `
+                  <button onclick="w3BtStep=1; playSfx('click'); renderWorld3(document.getElementById('app-container'))" class="btn-3d bg-blue-600 text-white font-display font-bold px-5 py-2.5 rounded-2xl">
+                    🔵 AKTIFKAN BLUETOOTH
+                  </button>
+                ` : w3BtStep === 1 ? `
+                  <div class="bg-blue-50 p-3 rounded-2xl border-2 border-blue-200">
+                    <div class="text-xs font-bold text-blue-800 mb-2">Perangkat ditemukan: <strong>🔊 Speaker TIKO</strong></div>
+                    <button onclick="connectW3Bluetooth()" class="btn-3d bg-green-500 text-white font-display font-bold px-5 py-2 rounded-xl">
+                      🔗 SAMBUNGKAN
+                    </button>
+                  </div>
+                ` : `
+                  <div class="bg-green-100 text-green-800 font-display font-bold p-3 rounded-2xl border-2 border-green-300">
+                    Yeay! Smartphone dan speaker berhasil terhubung! (Klik speaker untuk tes bunyi 🎵)
+                  </div>
+                `}
+              </div>
+            </div>
+
+            <!-- B. WIFI -->
+            <div class="card-playful p-5 sm:p-6 border-emerald-400 bg-emerald-50/70">
+              <h3 class="text-xl sm:text-2xl font-display font-bold text-emerald-800 mb-2">📶 B. Teknologi WiFi</h3>
+              <p class="font-bold text-slate-700 bg-white p-3 rounded-2xl border-2 border-emerald-200 mb-3">
+                "<strong>WiFi</strong> adalah teknologi jaringan nirkabel yang memungkinkan perangkat terhubung ke jaringan, termasuk <strong>internet</strong>."
+              </p>
+              <div class="text-sm font-bold text-slate-700 mb-4">
+                Digunakan oleh: Laptop, smartphone, tablet, dan komputer yang memiliki penerima WiFi melalui <strong>Router WiFi</strong>.
+              </div>
+
+              <!-- Simulasi WiFi -->
+              <div class="bg-white p-4 rounded-3xl border-3 border-emerald-300 text-center">
+                <div class="font-display font-bold text-emerald-700 mb-3">Simulasi WiFi: Sambungkan Laptop ke Internet</div>
+                <div class="flex items-center justify-center gap-4 text-3xl mb-3">
+                  <span>📡 Router</span>
+                  <span class="${w3WifiStep === 3 ? 'text-emerald-600 font-black' : 'text-slate-300'}">${w3WifiStep === 3 ? '📶 Terhubung' : '• • •'}</span>
+                  <span>💻📱📲</span>
+                </div>
+
+                ${w3WifiStep === 0 ? `
+                  <button onclick="w3WifiStep=1; playSfx('click'); renderWorld3(document.getElementById('app-container'))" class="btn-3d bg-emerald-600 text-white font-display font-bold px-5 py-2.5 rounded-2xl">
+                    📶 AKTIFKAN WIFI
+                  </button>
+                ` : w3WifiStep === 1 ? `
+                  <div class="space-y-2">
+                    <div class="text-xs font-bold text-slate-600">Pilih nama jaringan WiFi yang tersedia:</div>
+                    <button onclick="w3WifiStep=2; playSfx('click'); renderWorld3(document.getElementById('app-container'))" class="btn-3d w-full bg-sky-100 hover:bg-sky-200 border-2 border-sky-400 text-sky-900 font-display font-bold py-2.5 rounded-xl">
+                      📶 WiFi Sekolah 🔒
+                    </button>
+                  </div>
+                ` : w3WifiStep === 2 ? `
+                  <div class="bg-amber-50 p-3 rounded-2xl border-2 border-amber-300 space-y-2">
+                    <div class="text-xs font-extrabold text-amber-900">Masukkan kata sandi <strong>WiFi Sekolah</strong> (Petunjuk: <code class="bg-white px-1.5 py-0.5 rounded">belajar123</code>):</div>
+                    <div class="flex gap-2">
+                      <input id="w3-wifi-pass" type="text" placeholder="Ketik belajar123" class="flex-1 px-3 py-2 rounded-xl border-2 border-amber-400 font-bold text-sm" />
+                      <button onclick="submitW3WifiPassword()" class="btn-3d bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-sm">MASUK</button>
+                    </div>
+                  </div>
+                ` : `
+                  <div class="bg-emerald-100 text-emerald-900 font-display font-bold p-3 rounded-2xl border-2 border-emerald-400 text-sm">
+                    ✅ Perangkat terhubung ke WiFi Sekolah! Kata sandi WiFi menjaga jaringan agar tidak sembarang orang dapat mengaksesnya.
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+
+          <!-- PERMAINAN: BLUETOOTH ATAU WIFI? -->
+          <div class="card-playful p-6 border-indigo-400 bg-gradient-to-b from-indigo-50 to-white text-center">
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-indigo-800 mb-1">🎯 Permainan: "BLUETOOTH ATAU WIFI?"</h3>
+            <p class="font-bold text-slate-600 mb-4">Pilih teknologi yang paling tepat untuk situasi berikut (${(w3GameIndex % W3_SCENARIOS.length) + 1}/${W3_SCENARIOS.length}):</p>
+
+            <div class="max-w-2xl mx-auto bg-white p-5 rounded-3xl border-3 border-indigo-300 mb-4">
+              <p class="text-lg sm:text-xl font-extrabold text-slate-800 mb-4">"${sc.text}"</p>
+              <div class="flex justify-center gap-4">
+                <button onclick="answerW3Scenario('BLUETOOTH')" class="btn-3d bg-blue-600 hover:bg-blue-700 text-white font-display font-bold text-lg px-6 py-3 rounded-2xl">
+                  🔵 BLUETOOTH
+                </button>
+                <button onclick="answerW3Scenario('WIFI')" class="btn-3d bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-lg px-6 py-3 rounded-2xl">
+                  📶 WIFI
+                </button>
+              </div>
+              ${w3GameFeedback ? `<div class="mt-4 p-3 rounded-2xl bg-yellow-100 border-2 border-yellow-400 font-bold text-slate-800 text-sm">${w3GameFeedback}</div>` : ''}
+            </div>
+
+            ${appState.completed.world3_bt && appState.completed.world3_wifi && appState.completed.world3_game ? `
+              <button onclick="playSfx('click'); navigateTo('world4')" class="btn-3d bg-purple-600 hover:bg-purple-700 text-white font-display font-bold text-lg px-8 py-3.5 rounded-2xl">
+                LANJUT KE DUNIA 4 ➡️
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function connectW3Bluetooth() {
+      w3BtStep = 2;
+      renderWorld3(document.getElementById('app-container'));
+      awardProgress({
+        points: 80,
+        stars: 2,
+        badgeId: 'master_bluetooth',
+        completedKey: 'world3_bt',
+        title: 'MASTER BLUETOOTH!',
+        message: 'Yeay! Smartphone dan speaker berhasil terhubung lewat Bluetooth!'
+      });
+    }
+
+    function submitW3WifiPassword() {
+      const inp = document.getElementById('w3-wifi-pass');
+      const val = inp ? inp.value.trim().toLowerCase() : '';
+      if (val === 'belajar123') {
+        w3WifiStep = 3;
+        renderWorld3(document.getElementById('app-container'));
+        awardProgress({
+          points: 80,
+          stars: 2,
+          badgeId: 'sahabat_wifi',
+          completedKey: 'world3_wifi',
+          title: 'SAHABAT WIFI!',
+          message: 'Perangkat terhubung ke WiFi Sekolah! Kata sandi WiFi menjaga jaringan agar tidak sembarang orang dapat mengaksesnya.'
+        });
+      } else {
+        playSfx('wrong');
+        setTikoGuide('Kata sandi WiFi belum tepat! Coba ketik: belajar123 lalu tekan Masuk ya!', 'thinking');
+        showToast('🔒 Kata sandi salah! Petunjuk: belajar123', 'warn');
+      }
+    }
+
+    function answerW3Scenario(choice) {
+      const sc = W3_SCENARIOS[w3GameIndex % W3_SCENARIOS.length];
+      if (choice === sc.ans) {
+        playSfx('correct');
+        w3GameFeedback = `✅ Benar! ${sc.exp}`;
+        w3GameIndex++;
+        if (w3GameIndex >= W3_SCENARIOS.length) {
+          awardProgress({ points: 80, stars: 2, completedKey: 'world3_game' });
+        }
+      } else {
+        playSfx('wrong');
+        w3GameFeedback = `🤔 Kurang tepat. ${sc.exp}`;
+      }
+      renderWorld3(document.getElementById('app-container'));
+    }
+
+    /*************************************************************************
+     * 10. DUNIA 4: INTERNET DAN BROWSER VIRTUAL TIKO
+     *************************************************************************/
+    let w4SelectedCountry = 'Indonesia 🇮🇩';
+    let w4BenefitMatched = {};
+    let w4SafetyIndex = 0;
+    let w4SafetyFeedback = '';
+
+    // State Browser Virtual TIKO
+    let browserTabs = [
+      { id: 1, title: 'Beranda TIKO', url: 'https://tiko.belajar.id', query: '', page: 'home' }
+    ];
+    let activeTabId = 1;
+    let browserHistoryList = ['https://tiko.belajar.id'];
+    let browserHistoryPos = 0;
+    let browserBookmarks = ['https://tiko.belajar.id'];
+    let browserMenuOpen = false;
+    let browserPartExplain = 'Klik bagian-bagian browser di atas (Tombol Kembali, Maju, Refresh, Tab, Kolom URL, Search Engine, Bookmark, History, atau Menu) untuk mendengar penjelasan TIKO!';
+
+    const W4_BENEFITS = [
+      { id: 'b1', img: '👧💻', situation: 'Murid belajar materi sekolah', ans: 'Belajar' },
+      { id: 'b2', img: '📹👋', situation: 'Dua orang melakukan video call', ans: 'Berkomunikasi' },
+      { id: 'b3', img: '📚🔍', situation: 'Membaca ensiklopedia & buku digital', ans: 'Mencari informasi' },
+      { id: 'b4', img: '🎬🎓', situation: 'Menonton video pembelajaran anak', ans: 'Menonton edukasi' }
+    ];
+
+    const W4_SAFETY = [
+      { text: 'Memberikan password akun kepada teman yang tidak dikenal.', ans: 'TIDAK AMAN', exp: 'Tidak aman! Kata sandi bersifat rahasia dan tidak boleh dibagikan ke orang lain.' },
+      { text: 'Meminta bantuan orang tua atau guru ketika menemukan situs aneh.', ans: 'AMAN', exp: 'Aman dan bijak! Orang tua dan guru selalu siap membimbing kita.' },
+      { text: 'Mengklik tautan (link) hadiah dari orang tidak dikenal.', ans: 'TIDAK AMAN', exp: 'Tidak aman! Tautan mencurigakan bisa berbahaya bagi perangkat kita.' },
+      { text: 'Menggunakan internet untuk mengerjakan tugas sekolah.', ans: 'AMAN', exp: 'Aman dan bermanfaat! Internet sangat membantu kita belajar.' },
+      { text: 'Mengunggah alamat rumah dan data pribadi ke internet.', ans: 'TIDAK AMAN', exp: 'Tidak aman! Jangan pernah membagikan data pribadi secara sembarangan.' }
+    ];
+
+    function renderWorld4(container) {
+      setTikoGuide('Selamat datang di Dunia 4! Internet menghubungkan komputer di seluruh dunia, dan Browser adalah aplikasi untuk menjelajahinya!', 'happy');
+
+      const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+      const saf = W4_SAFETY[w4SafetyIndex % W4_SAFETY.length];
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-pop">
+          <div class="flex items-center justify-between">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Kembali ke Peta</button>
+            <span class="bg-purple-600 text-white font-display font-bold px-4 py-1.5 rounded-full text-sm">DUNIA 4 • INTERNET & BROWSER</span>
+          </div>
+
+          <!-- A. Pengertian Internet & Peta Dunia Interaktif -->
+          <div class="card-playful p-6 border-purple-400">
+            <h3 class="text-2xl font-display font-bold text-purple-800 mb-2">🌍 A. Apa Itu Internet?</h3>
+            <p class="text-lg font-bold text-slate-700 bg-purple-50 p-4 rounded-2xl border-2 border-purple-200 mb-4">
+              "<strong>Internet</strong> adalah jaringan komunikasi raksasa yang menghubungkan banyak jaringan komputer di <strong>seluruh dunia</strong>."
+            </p>
+
+            <!-- Simulasi Peta Dunia -->
+            <div class="bg-sky-900 text-white p-4 rounded-3xl border-4 border-sky-400 text-center">
+              <div class="font-display font-bold text-yellow-300 mb-2">🌐 Klik Negara untuk Mengirim Pesan Lintas Dunia:</div>
+              <div class="flex flex-wrap justify-center gap-2 mb-3">
+                {['Indonesia 🇮🇩', 'Jepang 🇯🇵', 'Inggris 🇬🇧', 'Amerika 🇺🇸', 'Australia 🇦🇺'].map(c => '')}
+                ${['Indonesia 🇮🇩', 'Jepang 🇯🇵', 'Inggris 🇬🇧', 'Amerika 🇺🇸', 'Australia 🇦🇺'].map(c => `
+                  <button onclick="w4SelectedCountry='${c}'; playSfx('connect'); setTikoGuide('Sinyal internet bergerak cepat menghubungkan komputermu dengan ${c}!', 'excited'); renderWorld4(document.getElementById('app-container'))"
+                    class="px-3.5 py-2 rounded-xl font-display font-bold text-sm border-2 transition ${w4SelectedCountry === c ? 'bg-yellow-400 text-slate-950 border-white' : 'bg-sky-800 text-white border-sky-500'}">
+                    ${c}
+                  </button>
+                `).join('')}
+              </div>
+              <div class="text-sm font-bold text-sky-200">
+                🛰️ Jalur Aktif: <strong>Komputermu</strong> ━━⚡━━ <strong>${w4SelectedCountry}</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- B. Permainan Manfaat Internet & Keamanan -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- Internet Untuk Apa? -->
+            <div class="card-playful p-5 border-teal-400 bg-teal-50/70">
+              <h3 class="text-xl font-display font-bold text-teal-800 mb-2">🧩 B. Permainan: "INTERNET UNTUK APA?"</h3>
+              <p class="text-sm font-bold text-slate-600 mb-3">Pilih manfaat yang sesuai untuk setiap kegiatan:</p>
+              <div class="space-y-2.5">
+                ${W4_BENEFITS.map(b => `
+                  <div class="bg-white p-3 rounded-2xl border-2 border-teal-200 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-2xl">${b.img}</span>
+                      <span class="font-bold text-sm text-slate-800">${b.situation}</span>
+                    </div>
+                    <select onchange="checkW4Benefit('${b.id}', this.value)" class="px-2.5 py-1.5 rounded-xl border-2 border-teal-400 font-display font-bold text-xs bg-teal-50">
+                      <option value="">-- Pilih Manfaat --</option>
+                      <option value="Belajar" ${w4BenefitMatched[b.id] === 'Belajar' ? 'selected' : ''}>Belajar</option>
+                      <option value="Berkomunikasi" ${w4BenefitMatched[b.id] === 'Berkomunikasi' ? 'selected' : ''}>Berkomunikasi</option>
+                      <option value="Mencari informasi" ${w4BenefitMatched[b.id] === 'Mencari informasi' ? 'selected' : ''}>Mencari informasi</option>
+                      <option value="Menonton edukasi" ${w4BenefitMatched[b.id] === 'Menonton edukasi' ? 'selected' : ''}>Menonton edukasi</option>
+                    </select>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Aman atau Tidak Aman? -->
+            <div class="card-playful p-5 border-amber-400 bg-amber-50/70 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-display font-bold text-amber-800 mb-2">🛡️ C. Menggunakan Internet dengan Bijak</h3>
+                <ul class="text-xs font-bold text-slate-700 space-y-1 mb-3 bg-white p-3 rounded-2xl border-2 border-amber-200">
+                  <li>✅ Gunakan internet untuk belajar & jangan buka situs tidak sesuai usia.</li>
+                  <li>✅ Jangan berikan kata sandi & data pribadi kepada orang lain.</li>
+                  <li>✅ Jangan sembarangan klik tautan & minta bantuan guru/orang tua.</li>
+                </ul>
+                <div class="bg-white p-4 rounded-2xl border-2 border-amber-300 text-center">
+                  <div class="text-xs font-display font-bold text-amber-700 mb-1">PERMAINAN: AMAN ATAU TIDAK AMAN?</div>
+                  <p class="font-extrabold text-slate-800 text-base mb-3">"${saf.text}"</p>
+                  <div class="flex justify-center gap-3">
+                    <button onclick="checkW4Safety('AMAN')" class="btn-3d bg-green-500 text-white font-display font-bold px-4 py-2 rounded-xl text-sm">✅ AMAN</button>
+                    <button onclick="checkW4Safety('TIDAK AMAN')" class="btn-3d bg-rose-500 text-white font-display font-bold px-4 py-2 rounded-xl text-sm">⚠️ TIDAK AMAN</button>
+                  </div>
+                  ${w4SafetyFeedback ? `<div class="mt-3 text-xs font-bold p-2 rounded-xl bg-yellow-100 text-slate-800">${w4SafetyFeedback}</div>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- D. BROWSER & SIMULASI BROWSER TIKO VIRTUAL -->
+          <div class="card-playful p-6 border-indigo-500 bg-gradient-to-b from-indigo-50 to-white">
+            <h3 class="text-2xl font-display font-bold text-indigo-800 mb-1">🧭 D. Mengenal Browser & Simulasi Browser TIKO</h3>
+            <p class="font-bold text-slate-700 mb-3">
+              <strong>Browser</strong> adalah aplikasi untuk membuka dan menjelajahi halaman internet. Contohnya: <strong>Google Chrome, Mozilla Firefox, Microsoft Edge, dan Safari</strong>.
+            </p>
+
+            <!-- Kotak Penjelasan Bagian Browser -->
+            <div class="bg-blue-600 text-white p-3.5 rounded-2xl border-3 border-yellow-300 font-bold text-sm sm:text-base mb-4">
+              🤖 <strong>Info Bagian Browser:</strong> ${browserPartExplain}
+            </div>
+
+            <!-- JENDELA BROWSER VIRTUAL -->
+            <div class="rounded-3xl border-4 border-slate-700 bg-white overflow-hidden shadow-xl">
+              <!-- Bar Tab Browser -->
+              <div class="bg-slate-800 px-3 pt-2 flex items-center gap-2 overflow-x-auto">
+                ${browserTabs.map(t => `
+                  <button onclick="switchBrowserTab(${t.id})"
+                    class="px-3.5 py-2 rounded-t-xl font-display font-bold text-xs sm:text-sm flex items-center gap-2 ${t.id === activeTabId ? 'bg-white text-slate-900' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}">
+                    <span>🌐 ${t.title}</span>
+                  </button>
+                `).join('')}
+                <button onclick="addBrowserTab()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-black px-2.5 py-1 rounded-lg text-sm" title="Tab Baru">+</button>
+              </div>
+
+              <!-- Toolbar Navigasi & URL -->
+              <div class="bg-slate-100 p-2.5 border-b-2 border-slate-300 flex flex-wrap items-center gap-2 relative">
+                <button onclick="browserGoBack()" class="p-2 bg-white hover:bg-blue-100 rounded-xl border border-slate-300 font-bold text-sm" title="Tombol Kembali">⬅️</button>
+                <button onclick="browserGoForward()" class="p-2 bg-white hover:bg-blue-100 rounded-xl border border-slate-300 font-bold text-sm" title="Tombol Maju">➡️</button>
+                <button onclick="browserRefresh()" class="p-2 bg-white hover:bg-blue-100 rounded-xl border border-slate-300 font-bold text-sm" title="Tombol Refresh">🔄</button>
+
+                <!-- Kolom Alamat URL -->
+                <div onclick="explainBrowserPart('url')" class="flex-1 min-w-[180px] flex items-center bg-white border-2 border-blue-400 rounded-xl px-3 py-1.5">
+                  <span class="text-xs mr-1.5">🔒</span>
+                  <input id="virtual-url-input" type="text" value="${curTab.url}" class="w-full text-xs sm:text-sm font-bold text-slate-700 focus:outline-none" />
+                </div>
+
+                <button onclick="toggleBrowserBookmark()" class="p-2 bg-yellow-100 hover:bg-yellow-200 rounded-xl border border-yellow-400 font-bold text-sm" title="Bookmark">⭐</button>
+                <button onclick="showBrowserHistory()" class="p-2 bg-purple-100 hover:bg-purple-200 rounded-xl border border-purple-300 font-bold text-sm" title="History">🕒</button>
+                <button onclick="toggleBrowserMenu()" class="p-2 bg-slate-200 hover:bg-slate-300 rounded-xl border border-slate-400 font-bold text-sm" title="Menu">⋮</button>
+
+                ${browserMenuOpen ? `
+                  <div class="absolute right-3 top-14 z-20 bg-white border-2 border-slate-300 rounded-2xl shadow-xl p-3 w-52 text-xs font-bold space-y-2">
+                    <div class="text-indigo-700 font-display">⚙️ Menu Browser</div>
+                    <button onclick="addBrowserTab(); browserMenuOpen=false; renderWorld4(document.getElementById('app-container'))" class="block w-full text-left hover:bg-slate-100 p-1.5 rounded">➕ Tab Baru</button>
+                    <button onclick="showBrowserHistory(); browserMenuOpen=false;" class="block w-full text-left hover:bg-slate-100 p-1.5 rounded">🕒 Lihat History (${browserHistoryList.length})</button>
+                    <div class="border-t pt-1 text-slate-500">⭐ Bookmark tersimpan: ${browserBookmarks.length}</div>
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Isi Halaman Browser Virtual -->
+              <div class="p-5 sm:p-8 min-h-[250px] bg-gradient-to-b from-sky-50 to-white">
+                ${curTab.page === 'search' ? `
+                  <div class="max-w-2xl mx-auto">
+                    <div class="flex items-center justify-between mb-4">
+                      <span class="font-display font-bold text-blue-700 text-lg">🔍 Hasil Pencarian Aman: "${curTab.query}"</span>
+                      <button onclick="resetBrowserHome()" class="text-xs font-bold bg-slate-200 px-3 py-1 rounded-lg">🏠 Beranda</button>
+                    </div>
+                    <div class="space-y-3">
+                      <div class="p-3.5 bg-white rounded-2xl border-2 border-green-300 shadow-sm">
+                        <div class="text-xs text-green-700 font-bold">https://ensiklopedia.anak.id/hewan-indonesia</div>
+                        <div class="font-display font-bold text-blue-700 text-lg">🐯 Mengenal Hewan Asli Indonesia (Komodo, Orangutan, Cenderawasih)</div>
+                        <p class="text-sm font-bold text-slate-600">Indonesia memiliki banyak satwa langka yang dilindungi seperti Komodo di Nusa Tenggara Timur dan Orangutan di Kalimantan.</p>
+                      </div>
+                      <div class="p-3.5 bg-white rounded-2xl border-2 border-sky-300 shadow-sm">
+                        <div class="text-xs text-sky-700 font-bold">https://sains.sd.id/ensiklopedia-hewan</div>
+                        <div class="font-display font-bold text-blue-700 text-lg">📚 Ensiklopedia Hewan Nusantara untuk Kelas 3 SD</div>
+                        <p class="text-sm font-bold text-slate-600">Pelajari habitat, makanan, dan cara melestarikan hewan langka Indonesia secara menyenangkan.</p>
+                      </div>
+                      <div class="p-3.5 bg-white rounded-2xl border-2 border-purple-300 shadow-sm">
+                        <div class="text-xs text-purple-700 font-bold">https://video.belajar.id/satwa-nusantara</div>
+                        <div class="font-display font-bold text-blue-700 text-lg">🎬 Video Edukasi Hewan Indonesia Ramah Anak</div>
+                        <p class="text-sm font-bold text-slate-600">Tonton petualangan mengenal flora dan fauna Indonesia bersama pemandu ramah anak.</p>
+                      </div>
+                    </div>
+                  </div>
+                ` : curTab.page === 'history' ? `
+                  <div class="max-w-xl mx-auto">
+                    <div class="flex items-center justify-between mb-3">
+                      <h4 class="font-display font-bold text-purple-800 text-lg">🕒 History (Riwayat Kunjungan)</h4>
+                      <button onclick="resetBrowserHome()" class="text-xs font-bold bg-slate-200 px-3 py-1 rounded-lg">🏠 Beranda</button>
+                    </div>
+                    <ul class="space-y-2 text-sm font-bold">
+                      ${browserHistoryList.map((h, i) => `<li class="p-2.5 bg-purple-50 rounded-xl border border-purple-200">${i + 1}. ${h}</li>`).join('')}
+                    </ul>
+                  </div>
+                ` : `
+                  <div class="max-w-xl mx-auto text-center py-4">
+                    <div class="text-5xl mb-2">🤖🌐</div>
+                    <h4 class="text-2xl sm:text-3xl font-display font-bold text-blue-700 mb-2">Selamat Datang di Browser TIKO!</h4>
+                    <p class="text-sm font-bold text-slate-600 mb-4">Coba ketik <strong class="text-blue-700">hewan Indonesia</strong> di Search Engine di bawah ini lalu tekan Cari:</p>
+                    <div onclick="explainBrowserPart('search')" class="flex flex-col sm:flex-row gap-2">
+                      <input id="browser-search-input" type="text" value="hewan Indonesia" placeholder="Ketik kata kunci pencarian..."
+                        class="flex-1 px-4 py-3 rounded-2xl border-3 border-blue-400 font-bold text-base text-slate-800" />
+                      <button onclick="runVirtualSearch()" class="btn-3d bg-blue-600 hover:bg-blue-700 text-white font-display font-bold px-6 py-3 rounded-2xl">
+                        🔍 CARI
+                      </button>
+                    </div>
+                  </div>
+                `}
+              </div>
+            </div>
+
+            ${appState.completed.world4_browser ? `
+              <div class="mt-6 text-center">
+                <button onclick="playSfx('click'); navigateTo('city')" class="btn-3d bg-rose-600 hover:bg-rose-700 text-white font-display font-bold text-xl px-8 py-4 rounded-3xl">
+                  🚨 LANJUT KE MISI UTAMA: SELAMATKAN KOTA DIGITAL!
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function checkW4Benefit(id, val) {
+      const item = W4_BENEFITS.find(x => x.id === id);
+      if (!item || !val) return;
+      if (item.ans === val) {
+        w4BenefitMatched[id] = val;
+        playSfx('correct');
+        showToast('⭐ Cocok! Manfaat internet tepat sekali!', 'success');
+        if (Object.keys(w4BenefitMatched).length === W4_BENEFITS.length) {
+          awardProgress({ points: 90, stars: 2, badgeId: 'penjelajah_internet', completedKey: 'world4_net' });
+        }
+      } else {
+        playSfx('wrong');
+        showToast('🤔 Coba pilih manfaat lain yang lebih sesuai ya!', 'warn');
+      }
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function checkW4Safety(choice) {
+      const saf = W4_SAFETY[w4SafetyIndex % W4_SAFETY.length];
+      if (choice === saf.ans) {
+        playSfx('correct');
+        w4SafetyFeedback = `✅ Tepat! ${saf.exp}`;
+        w4SafetyIndex++;
+      } else {
+        playSfx('wrong');
+        w4SafetyFeedback = `⚠️ Hati-hati! ${saf.exp}`;
+      }
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function explainBrowserPart(part) {
+      const map = {
+        url: 'Kolom URL digunakan untuk mengetik alamat situs yang ingin kita kunjungi.',
+        back: 'Tombol kembali digunakan untuk membuka halaman sebelumnya.',
+        forward: 'Tombol maju digunakan untuk kembali ke halaman berikutnya.',
+        refresh: 'Tombol refresh digunakan untuk memuat ulang halaman.',
+        tab: 'Tab digunakan untuk membuka beberapa halaman dalam satu browser.',
+        bookmark: 'Bookmark membantu kita menyimpan halaman yang ingin dibuka kembali.',
+        history: 'History adalah daftar halaman yang pernah kita kunjungi.',
+        search: 'Search engine membantu kita mencari informasi di internet.',
+        menu: 'Menu berisi pengaturan browser seperti membuka tab baru dan melihat riwayat.'
+      };
+      browserPartExplain = map[part] || browserPartExplain;
+      setTikoGuide(browserPartExplain, 'happy');
+    }
+
+    function runVirtualSearch() {
+      const inp = document.getElementById('browser-search-input');
+      const q = (inp && inp.value.trim()) ? inp.value.trim() : 'hewan Indonesia';
+      const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+      const newUrl = `https://cari.tiko.id/?q=${encodeURIComponent(q)}`;
+
+      curTab.title = `Cari: ${q}`;
+      curTab.url = newUrl;
+      curTab.query = q;
+      curTab.page = 'search';
+
+      browserHistoryList.push(newUrl);
+      browserHistoryPos = browserHistoryList.length - 1;
+      explainBrowserPart('search');
+
+      renderWorld4(document.getElementById('app-container'));
+      awardProgress({
+        points: 110,
+        stars: 3,
+        badgeId: 'detektif_browser',
+        completedKey: 'world4_browser',
+        title: 'DETEKTIF BROWSER HEBAT!',
+        message: 'Kamu berhasil menggunakan Search Engine di Browser TIKO untuk mencari informasi dengan aman!'
+      });
+    }
+
+    function resetBrowserHome() {
+      const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+      curTab.title = 'Beranda TIKO';
+      curTab.url = 'https://tiko.belajar.id';
+      curTab.page = 'home';
+      playSfx('click');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function addBrowserTab() {
+      const newId = browserTabs.length + 1;
+      browserTabs.push({ id: newId, title: `Tab Baru ${newId}`, url: 'https://tiko.belajar.id', query: '', page: 'home' });
+      activeTabId = newId;
+      playSfx('click');
+      explainBrowserPart('tab');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function switchBrowserTab(id) {
+      activeTabId = id;
+      playSfx('click');
+      explainBrowserPart('tab');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function browserGoBack() {
+      playSfx('click');
+      explainBrowserPart('back');
+      if (browserHistoryPos > 0) {
+        browserHistoryPos--;
+        const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+        curTab.url = browserHistoryList[browserHistoryPos];
+        curTab.page = curTab.url.includes('?q=') ? 'search' : 'home';
+      }
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function browserGoForward() {
+      playSfx('click');
+      explainBrowserPart('forward');
+      if (browserHistoryPos < browserHistoryList.length - 1) {
+        browserHistoryPos++;
+        const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+        curTab.url = browserHistoryList[browserHistoryPos];
+        curTab.page = curTab.url.includes('?q=') ? 'search' : 'home';
+      }
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function browserRefresh() {
+      playSfx('connect');
+      explainBrowserPart('refresh');
+      showToast('🔄 Halaman dimuat ulang!', 'info');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function toggleBrowserBookmark() {
+      const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+      if (!browserBookmarks.includes(curTab.url)) {
+        browserBookmarks.push(curTab.url);
+      }
+      playSfx('star');
+      explainBrowserPart('bookmark');
+      showToast('⭐ Halaman disimpan ke Bookmark!', 'success');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function showBrowserHistory() {
+      const curTab = browserTabs.find(t => t.id === activeTabId) || browserTabs[0];
+      curTab.page = 'history';
+      curTab.title = 'History';
+      playSfx('click');
+      explainBrowserPart('history');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    function toggleBrowserMenu() {
+      browserMenuOpen = !browserMenuOpen;
+      playSfx('click');
+      explainBrowserPart('menu');
+      renderWorld4(document.getElementById('app-container'));
+    }
+
+    /*************************************************************************
+     * 11. PERMAINAN UTAMA: SELAMATKAN KOTA DIGITAL! (5 MISI)
+     *************************************************************************/
+    let cityMissionsDone = [false, false, false, false, false];
+
+    function renderCityMission(container) {
+      setTikoGuide('Gawat! Kota Digital mengalami gangguan jaringan. Ayo selesaikan 5 misi untuk memulihkan seluruh perangkat kota!', 'excited');
+
+      const missions = [
+        {
+          title: 'MISI 1: Hubungkan Komputer Lab Sekolah dengan Kabel',
+          icon: '🔌',
+          desc: 'Komputer di sekolah terputus dari server. Pasang kabel jaringan sekarang!',
+          actionHtml: `<button onclick="completeCityMission(0)" class="btn-3d bg-blue-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">🔌 SAMBUNGKAN KABEL LAN</button>`
+        },
+        {
+          title: 'MISI 2: Aktifkan Pemancar Jaringan Nirkabel Kota',
+          icon: '📡',
+          desc: 'Tablet dan laptop warga butuh sinyal tanpa kabel dari menara pemancar.',
+          actionHtml: `<button onclick="completeCityMission(1)" class="btn-3d bg-emerald-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">📡 PANCARKAN SINYAL NIRKABEL</button>`
+        },
+        {
+          title: 'MISI 3: Pasangkan Smartphone dengan Speaker Pengumuman via Bluetooth',
+          icon: '🔵',
+          desc: 'Petugas kota perlu menyambungkan ponsel ke speaker dalam jarak dekat.',
+          actionHtml: `<button onclick="completeCityMission(2)" class="btn-3d bg-sky-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">🔵 PASANGKAN BLUETOOTH</button>`
+        },
+        {
+          title: 'MISI 4: Hubungkan Laptop Perpustakaan ke WiFi Kota',
+          icon: '📶',
+          desc: 'Masukkan kata sandi WiFi Kota: kotaaman123',
+          actionHtml: `
+            <div class="flex flex-wrap justify-center gap-2">
+              <input id="city-wifi-pass" type="text" placeholder="Ketik kotaaman123" class="px-3 py-2 rounded-xl border-2 border-amber-400 font-bold text-sm" />
+              <button onclick="checkCityWifiMission()" class="btn-3d bg-amber-500 text-slate-950 font-display font-bold px-4 py-2 rounded-xl text-sm">📶 HUBUNGKAN WIFI</button>
+            </div>
+          `
+        },
+        {
+          title: 'MISI 5: Gunakan Browser untuk Mencari Info Cuaca Kota',
+          icon: '🧭',
+          desc: 'Buka browser dan cari informasi aman untuk warga kota.',
+          actionHtml: `<button onclick="completeCityMission(4)" class="btn-3d bg-purple-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">🔍 CARI DI BROWSER</button>`
+        }
+      ];
+
+      const allDone = cityMissionsDone.every(Boolean);
+
+      container.innerHTML = `
+        <div class="space-y-5 animate-pop">
+          <div class="flex items-center justify-between">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Kembali ke Peta</button>
+            <span class="bg-rose-600 text-white font-display font-bold px-4 py-1.5 rounded-full text-sm">MISI UTAMA • SELAMATKAN KOTA DIGITAL</span>
+          </div>
+
+          <div class="card-playful p-6 border-rose-400 bg-gradient-to-r from-rose-50 via-amber-50 to-sky-50 text-center">
+            <h2 class="text-2xl sm:text-3xl font-display font-bold text-rose-700 mb-1">🦸 SELAMATKAN KOTA DIGITAL!</h2>
+            <p class="font-bold text-slate-700">Selesaikan kelima misi di bawah ini untuk meraih Badge <strong>JUARA DIGITAL</strong>!</p>
+          </div>
+
+          <div class="space-y-4">
+            ${missions.map((m, idx) => {
+              const done = cityMissionsDone[idx];
+              return `
+                <div class="card-playful p-5 ${done ? 'border-green-400 bg-green-50/80' : 'border-slate-300'} flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div class="flex items-center gap-3 text-center sm:text-left">
+                    <div class="text-4xl bg-white p-3 rounded-2xl shadow-sm">${done ? '✅' : m.icon}</div>
+                    <div>
+                      <h3 class="font-display font-bold text-lg text-slate-800">${m.title}</h3>
+                      <p class="text-sm font-bold text-slate-600">${m.desc}</p>
+                    </div>
+                  </div>
+                  <div class="flex-shrink-0">
+                    ${done ? '<span class="bg-green-500 text-white font-display font-bold px-4 py-2 rounded-xl">MISI PULIH! ⭐</span>' : m.actionHtml}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          ${allDone ? `
+            <div class="card-playful p-6 border-yellow-400 bg-yellow-50 text-center">
+              <div class="text-5xl mb-2">🎉🏙️✨</div>
+              <h3 class="text-2xl font-display font-bold text-blue-700 mb-2">KOTA DIGITAL BERHASIL DISELAMATKAN!</h3>
+              <button onclick="playSfx('click'); navigateTo('quiz')" class="btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-xl px-8 py-4 rounded-3xl">
+                LANJUT KE KUIS 15 SOAL 📝
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function checkCityWifiMission() {
+      const inp = document.getElementById('city-wifi-pass');
+      if (inp && inp.value.trim().toLowerCase() === 'kotaaman123') {
+        completeCityMission(3);
+      } else {
+        playSfx('wrong');
+        showToast('🔒 Kata sandi salah! Ketik: kotaaman123', 'warn');
+      }
+    }
+
+    function completeCityMission(idx) {
+      cityMissionsDone[idx] = true;
+      playSfx('connect');
+      showToast(`⭐ Misi ${idx + 1} berhasil diselesaikan!`, 'success');
+      renderCityMission(document.getElementById('app-container'));
+
+      if (cityMissionsDone.every(Boolean)) {
+        awardProgress({
+          points: 150,
+          stars: 5,
+          badgeId: 'juara_digital',
+          completedKey: 'city_mission',
+          title: 'JUARA DIGITAL KOTA!',
+          message: 'Luar biasa! Seluruh jaringan di Kota Digital kembali normal berkat bantuanmu!'
+        });
+      }
+    }
+
+    /*************************************************************************
+     * 12. KUIS 15 SOAL INTERAKTIF
+     *************************************************************************/
+    const QUIZ_QUESTIONS = [
+      { q: '1. Hubungan antara dua komputer atau lebih agar dapat saling berbagi informasi disebut ....', opts: ['Jaringan komputer', 'Mesin ketik', 'Televisi', 'Kalkulator'], ans: 0, exp: 'Jaringan komputer menghubungkan dua atau lebih komputer agar bisa berkomunikasi dan berbagi data.' },
+      { q: '2. Jaringan komputer yang menggunakan kabel fisik untuk menghubungkan perangkat disebut ....', opts: ['Jaringan nirkabel', 'Jaringan berkabel', 'Bluetooth', 'Gelombang radio'], ans: 1, exp: 'Jaringan berkabel memakai kabel jaringan (LAN) untuk menghubungkan komputer.' },
+      { q: '3. Jaringan yang menghubungkan perangkat tanpa menggunakan kabel disebut ....', opts: ['Jaringan berkabel', 'Jaringan nirkabel', 'Kabel listrik', 'Printer'], ans: 1, exp: 'Nirkabel artinya tanpa kabel (wireless).' },
+      { q: '4. Teknologi Bluetooth biasanya digunakan untuk ....', opts: ['Menghubungkan ponsel dengan speaker di jarak dekat', 'Menyalakan lampu jalan', 'Mencetak kertas tanpa printer', 'Menghubungkan antarbenua'], ans: 0, exp: 'Bluetooth menghubungkan perangkat seperti ponsel ke speaker/headphone dalam jarak dekat.' },
+      { q: '5. WiFi biasanya digunakan untuk ....', opts: ['Menghubungkan laptop atau ponsel ke jaringan internet', 'Memotong kertas', 'Mengisi baterai ponsel', 'Mendinginkan komputer'], ans: 0, exp: 'WiFi adalah teknologi nirkabel untuk terhubung ke jaringan dan internet.' },
+      { q: '6. Internet dapat digunakan murid kelas 3 SD untuk ....', opts: ['Belajar dan mencari informasi pelajaran', 'Membagikan password kepada orang asing', 'Membuka situs berbahaya', 'Mengganggu teman'], ans: 0, exp: 'Internet sangat bermanfaat untuk belajar, mencari info, dan mengerjakan tugas sekolah.' },
+      { q: '7. Aplikasi yang digunakan untuk membuka dan menjelajahi halaman internet disebut ....', opts: ['Browser', 'Kalkulator', 'Paint', 'Notepad'], ans: 0, exp: 'Browser (seperti Chrome, Firefox, Edge, Safari) dipakai untuk menjelajahi halaman web.' },
+      { q: '8. Tombol pada browser yang berfungsi untuk kembali ke halaman sebelumnya adalah ....', opts: ['Tombol Kembali (Back)', 'Tombol Refresh', 'Bookmark', 'Menu'], ans: 0, exp: 'Tombol Kembali (panah kiri) membuka kembali halaman yang baru saja dilihat.' },
+      { q: '9. Kolom di bagian atas browser untuk mengetik alamat situs web disebut ....', opts: ['Kolom URL', 'Tombol Maju', 'History', 'Speaker'], ans: 0, exp: 'Kolom alamat URL dipakai untuk mengetik alamat situs yang ingin dikunjungi.' },
+      { q: '10. Fitur Bookmark pada browser digunakan untuk ....', opts: ['Menyimpan halaman web favorit agar mudah dibuka lagi', 'Menghapus komputer', 'Mematikan WiFi', 'Mengganti nama sekolah'], ans: 0, exp: 'Bookmark menandai dan menyimpan alamat halaman penting.' },
+      { q: '11. History pada browser adalah ....', opts: ['Daftar halaman internet yang pernah kita kunjungi', 'Permainan balap mobil', 'Jenis kabel jaringan', 'Nama merek printer'], ans: 0, exp: 'History mencatat riwayat halaman yang pernah dibuka di browser.' },
+      { q: '12. Contoh aplikasi browser yang sering digunakan adalah ....', opts: ['Google Chrome dan Mozilla Firefox', 'Microsoft Word dan Excel', 'Bluetooth dan Kabel LAN', 'Printer dan Scanner'], ans: 0, exp: 'Google Chrome, Mozilla Firefox, Microsoft Edge, dan Safari adalah contoh browser.' },
+      { q: '13. Apakah aman memberikan password WiFi atau akun kepada orang yang tidak dikenal?', opts: ['Tidak aman, karena password harus dijaga kerahasiaannya', 'Sangat aman', 'Boleh diberikan ke siapa saja', 'Harus ditulis di pinggir jalan'], ans: 0, exp: 'Password bersifat rahasia agar orang asing tidak menyalahgunakan jaringan atau akun kita.' },
+      { q: '14. Perangkat yang memancarkan sinyal WiFi agar laptop dan ponsel bisa terhubung adalah ....', opts: ['Router WiFi', 'Mouse', 'Keyboard', 'Flashdisk'], ans: 0, exp: 'Router WiFi memancarkan gelombang sinyal nirkabel ke perangkat di sekitarnya.' },
+      { q: '15. Bagaimana cara menggunakan internet dengan aman bagi anak-anak?', opts: ['Didampingi orang tua/guru dan tidak membagikan data pribadi', 'Mengklik semua tautan dari orang asing', 'Mengunggah alamat rumah di internet', 'Bermain internet sampai larut malam'], ans: 0, exp: 'Selalu minta pendampingan orang tua/guru dan jaga kerahasiaan data pribadi.' }
+    ];
+
+    let quizIdx = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+    let quizSelectedOpt = -1;
+    let quizFinished = false;
+
+    function renderQuizScreen(container) {
+      setTikoGuide('Ayo uji pemahamanmu dengan mengerjakan 15 soal kuis! Baca soal dengan teliti ya!', 'happy');
+
+      if (quizFinished) {
+        const pct = Math.round((quizScore / QUIZ_QUESTIONS.length) * 100);
+        container.innerHTML = `
+          <div class="max-w-2xl mx-auto card-playful p-6 sm:p-10 text-center border-indigo-400 animate-pop">
+            <div class="text-6xl mb-3">🏆🎉</div>
+            <h2 class="text-3xl font-display font-bold text-indigo-700 mb-2">HASIL KUIS PENJELAJAH DIGITAL</h2>
+            <p class="text-lg font-bold text-slate-600 mb-4">Hebat sekali, <strong>${appState.playerName}</strong>!</p>
+            <div class="bg-indigo-50 border-3 border-indigo-300 rounded-3xl p-6 mb-6">
+              <div class="text-5xl font-display font-black text-indigo-700 mb-1">${quizScore} / ${QUIZ_QUESTIONS.length}</div>
+              <div class="text-lg font-display font-bold text-emerald-600">Nilai Akhir: ${pct}</div>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+              <button onclick="restartQuiz()" class="btn-3d bg-sky-500 text-white font-display font-bold text-lg px-6 py-3.5 rounded-2xl">🔄 ULANGI KUIS</button>
+              <button onclick="playSfx('click'); navigateTo('certificate')" class="btn-3d bg-amber-500 text-slate-950 font-display font-bold text-lg px-6 py-3.5 rounded-2xl">🎓 REFLEKSI & SERTIFIKAT</button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const item = QUIZ_QUESTIONS[quizIdx];
+      const progressPct = Math.round(((quizIdx + 1) / QUIZ_QUESTIONS.length) * 100);
+
+      container.innerHTML = `
+        <div class="max-w-3xl mx-auto space-y-5 animate-pop">
+          <div class="flex items-center justify-between">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Peta Dunia</button>
+            <span class="bg-indigo-600 text-white font-display font-bold px-4 py-1.5 rounded-full text-sm">Soal ${quizIdx + 1} dari ${QUIZ_QUESTIONS.length} • Skor: ${quizScore}</span>
+          </div>
+
+          <div class="w-full h-4 bg-slate-200 rounded-full overflow-hidden border-2 border-slate-300">
+            <div class="h-full bg-indigo-600 transition-all" style="width: ${progressPct}%"></div>
+          </div>
+
+          <div class="card-playful p-6 sm:p-8 border-indigo-400">
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-slate-800 mb-5">${item.q}</h3>
+            <div class="space-y-3">
+              ${item.opts.map((opt, idx) => {
+                let cls = 'bg-white hover:bg-indigo-50 border-slate-300 text-slate-800';
+                if (quizAnswered) {
+                  if (idx === item.ans) cls = 'bg-green-500 border-green-700 text-white';
+                  else if (idx === quizSelectedOpt) cls = 'bg-rose-500 border-rose-700 text-white';
+                  else cls = 'bg-slate-100 border-slate-200 text-slate-400';
+                }
+                return `
+                  <button onclick="submitQuizAnswer(${idx})" ${quizAnswered ? 'disabled' : ''}
+                    class="w-full text-left p-4 rounded-2xl border-3 font-bold text-base sm:text-lg transition flex items-center gap-3 ${cls}">
+                    <span class="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center font-display font-bold flex-shrink-0">${['A', 'B', 'C', 'D'][idx]}</span>
+                    <span>${opt}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            ${quizAnswered ? `
+              <div class="mt-5 p-4 rounded-2xl border-2 ${quizSelectedOpt === item.ans ? 'bg-green-50 border-green-400 text-green-900' : 'bg-amber-50 border-amber-400 text-amber-900'}">
+                <div class="font-display font-bold text-lg mb-1">${quizSelectedOpt === item.ans ? '✅ Jawaban Benar!' : '💡 Pembahasan:'}</div>
+                <p class="font-bold text-sm sm:text-base">${item.exp}</p>
+              </div>
+              <div class="mt-5 text-right">
+                <button onclick="nextQuizQuestion()" class="btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-lg px-8 py-3 rounded-2xl">
+                  ${quizIdx + 1 < QUIZ_QUESTIONS.length ? 'SOAL BERIKUTNYA ➡️' : 'LIHAT HASIL AKHIR 🏆'}
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function submitQuizAnswer(idx) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      quizSelectedOpt = idx;
+      const item = QUIZ_QUESTIONS[quizIdx];
+      if (idx === item.ans) {
+        quizScore++;
+        playSfx('correct');
+      } else {
+        playSfx('wrong');
+      }
+      renderQuizScreen(document.getElementById('app-container'));
+    }
+
+    function nextQuizQuestion() {
+      playSfx('click');
+      if (quizIdx + 1 < QUIZ_QUESTIONS.length) {
+        quizIdx++;
+        quizAnswered = false;
+        quizSelectedOpt = -1;
+      } else {
+        quizFinished = true;
+        if (quizScore > appState.quizBestScore) {
+          appState.quizBestScore = quizScore;
+        }
+        awardProgress({
+          points: quizScore * 15,
+          stars: Math.max(1, Math.ceil(quizScore / 3)),
+          completedKey: 'quiz',
+          title: 'KUIS SELESAI!',
+          message: `Kamu menjawab benar ${quizScore} dari ${QUIZ_QUESTIONS.length} soal!`
+        });
+      }
+      renderQuizScreen(document.getElementById('app-container'));
+    }
+
+    function restartQuiz() {
+      quizIdx = 0;
+      quizScore = 0;
+      quizAnswered = false;
+      quizSelectedOpt = -1;
+      quizFinished = false;
+      playSfx('click');
+      renderQuizScreen(document.getElementById('app-container'));
+    }
+
+    /*************************************************************************
+     * 13. HALAMAN REFLEKSI & SERTIFIKAT 1 HALAMAN LANDSCAPE
+     *************************************************************************/
+    const REFLECTION_QUESTIONS = [
+      '1. Apa yang kamu pelajari tentang jaringan komputer?',
+      '2. Apa perbedaan jaringan berkabel dan nirkabel?',
+      '3. Apa fungsi Bluetooth?',
+      '4. Apa fungsi WiFi?',
+      '5. Apa manfaat internet?',
+      '6. Apa fungsi browser?',
+      '7. Bagian browser mana yang paling mudah kamu ingat?'
+    ];
+
+    function renderReflectionAndCertificate(container) {
+      setTikoGuide('Selamat Penjelajah Digital! Kamu telah menyelesaikan petualangan jaringan komputer dan internet! Isi refleksimu dan cetak sertifikatmu!', 'excited');
+
+      const todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-pop">
+          <div class="flex items-center justify-between print:hidden">
+            <button onclick="playSfx('click'); navigateTo('map')" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2 rounded-2xl">⬅️ Kembali ke Peta</button>
+            <span class="bg-amber-500 text-slate-950 font-display font-bold px-4 py-1.5 rounded-full text-sm">REFLEKSI & SERTIFIKAT KELULUSAN</span>
+          </div>
+
+          <!-- Bagian Refleksi Emotikon -->
+          <div class="card-playful p-6 border-sky-400 print:hidden">
+            <h2 class="text-2xl font-display font-bold text-blue-700 mb-1">💭 Refleksi Pemahaman Murid</h2>
+            <p class="font-bold text-slate-600 mb-4">Pilih emotikon yang menggambarkan pemahamanmu pada setiap materi:</p>
+            <div class="space-y-3">
+              ${REFLECTION_QUESTIONS.map((q, idx) => {
+                const chosen = appState.reflections[idx] || '';
+                return `
+                  <div class="p-3.5 rounded-2xl bg-sky-50 border-2 border-sky-200 flex flex-col md:flex-row md:items-center justify-between gap-2">
+                    <span class="font-bold text-slate-800 text-sm sm:text-base">${q}</span>
+                    <div class="flex flex-wrap gap-1.5">
+                      ${[
+                        { val: 'paham', label: '😊 Sudah Paham' },
+                        { val: 'cukup', label: '🙂 Cukup Paham' },
+                        { val: 'belajar', label: '🤔 Perlu Belajar' }
+                      ].map(opt => `
+                        <button onclick="setReflection(${idx}, '${opt.val}')"
+                          class="px-3 py-1.5 rounded-xl font-display font-bold text-xs border-2 transition ${chosen === opt.val ? 'bg-blue-600 text-white border-blue-800' : 'bg-white text-slate-700 border-slate-300'}">
+                          ${opt.label}
+                        </button>
+                      `).join('')}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- SERTIFIKAT PENJELAJAH DIGITAL (1 HALAMAN LANDSCAPE SAAT PRINT) -->
+          <div id="printable-certificate" class="bg-gradient-to-br from-amber-50 via-white to-sky-50 border-8 border-double border-blue-700 rounded-3xl p-6 sm:p-10 text-center shadow-2xl relative">
+            <div class="flex items-center justify-between border-b-2 border-amber-300 pb-3 mb-4">
+              <div class="bg-gradient-to-r from-blue-700 via-sky-600 to-indigo-700 text-yellow-300 border-2 border-yellow-300 px-4 py-1.5 rounded-2xl flex items-center gap-2">
+                <span class="text-xl">🏫</span>
+                <span class="font-display font-extrabold text-base sm:text-xl tracking-wider uppercase">SD ST. MELANIA</span>
+              </div>
+              <div class="text-xs sm:text-sm font-display font-bold text-slate-600">Informatika Kelas III SD • Bab 4</div>
+            </div>
+
+            <div>
+              <div class="inline-block bg-yellow-300 text-blue-950 font-display font-bold text-xs sm:text-sm px-4 py-1 rounded-full mb-2">
+                🏆 PENGHARGAAN PRESTASI BELAJAR
+              </div>
+              <h2 class="text-3xl sm:text-5xl font-display font-bold text-blue-800 tracking-wide mb-2">
+                SERTIFIKAT PENJELAJAH DIGITAL
+              </h2>
+              <p class="text-base sm:text-lg font-bold text-slate-600 mb-3">Diberikan dengan bangga kepada:</p>
+
+              <div class="max-w-xl mx-auto mb-3">
+                <input type="text" value="${appState.playerName}" oninput="appState.playerName = this.value; saveState();"
+                  class="w-full text-center font-display font-bold text-2xl sm:text-4xl text-blue-700 bg-transparent border-b-4 border-dashed border-blue-400 focus:outline-none py-1" />
+                <div class="text-base sm:text-xl font-display font-bold text-slate-700 mt-1">
+                  Kelas: <span class="text-orange-600">${appState.playerClass || 'III SD'}</span>
+                </div>
+              </div>
+
+              <p class="text-sm sm:text-base font-bold text-slate-700 max-w-2xl mx-auto mb-4">
+                <strong>SELAMAT, PENJELAJAH DIGITAL!</strong> Kamu telah berhasil menyelesaikan petualangan jaringan komputer, jaringan berkabel & nirkabel, Bluetooth, WiFi, serta internet dan browser bersama TIKO!
+              </p>
+
+              <!-- Ringkasan Skor, Bintang & Badge -->
+              <div class="flex flex-wrap justify-center gap-3 sm:gap-5 mb-4">
+                <div class="bg-emerald-100 border-2 border-emerald-400 px-4 py-2 rounded-2xl font-display font-bold text-emerald-900">
+                  💎 Total Skor: ${appState.points}
+                </div>
+                <div class="bg-amber-100 border-2 border-amber-400 px-4 py-2 rounded-2xl font-display font-bold text-amber-900">
+                  ⭐ Bintang: ${appState.stars}
+                </div>
+                <div class="bg-purple-100 border-2 border-purple-400 px-4 py-2 rounded-2xl font-display font-bold text-purple-900">
+                  🏅 Badge: ${appState.badges.length}/${BADGES_LIST.length}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-t-2 border-amber-300 pt-3 mt-2 text-xs sm:text-sm font-bold text-slate-600">
+              <div>Tanggal: ${todayStr}</div>
+              <div class="flex items-center gap-2">
+                <div class="w-10 h-10">${getTikoSVG('excited')}</div>
+                <span class="font-display text-blue-800">TIKO & Guru Informatika</span>
+              </div>
+              <div>By : Jericho Siahaan</div>
+            </div>
+          </div>
+
+          <!-- Tombol Aksi Sertifikat -->
+          <div class="flex flex-col sm:flex-row justify-center gap-3 print:hidden">
+            <button onclick="printCertificate()" class="btn-3d bg-green-600 hover:bg-green-700 text-white font-display font-bold text-lg px-7 py-3.5 rounded-2xl">
+              🖨️ CETAK SERTIFIKAT
+            </button>
+            <button onclick="openBadgesModal()" class="btn-3d bg-purple-600 hover:bg-purple-700 text-white font-display font-bold text-lg px-7 py-3.5 rounded-2xl">
+              🏅 LIHAT HASIL & BADGE
+            </button>
+            <button onclick="resetAllProgress()" class="btn-3d bg-rose-500 hover:bg-rose-600 text-white font-display font-bold text-lg px-7 py-3.5 rounded-2xl">
+              🔄 ULANGI PETUALANGAN
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function setReflection(idx, val) {
+      appState.reflections[idx] = val;
+      appState.completed.reflection = true;
+      saveState();
+      playSfx('click');
+      renderReflectionAndCertificate(document.getElementById('app-container'));
+    }
+
+    function printCertificate() {
+      playSfx('star');
+      window.print();
+    }
+
+    function unlockAndAutoStartBgm() {
+      initAudioContext();
+      if (appState.audio.music && bgmAudioPlayer.paused) {
+        playMp3Track(bgmSongIndex, true);
+      }
+      updateQuickMusicUI();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      bgmSongIndex = getRandomSongIndex();
+      updateHUD();
+      navigateTo('welcome');
+      updateQuickMusicUI();
+      startBgm(false);
+      ['pointerdown', 'click', 'keydown', 'touchstart', 'mousedown'].forEach(evt => {
+        document.addEventListener(evt, unlockAndAutoStartBgm, { passive: true });
+      });
+    });
+  </script>
+</body>
+</html>
